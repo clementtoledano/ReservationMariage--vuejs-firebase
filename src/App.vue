@@ -64,10 +64,15 @@
              class="nav-link block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100"
              href="#" @click="signOut">Déconnection</a>
         </div>
-      </transition>
+        </transition>
     </nav>
-    <div class="container mt-5">
-    <router-view></router-view>
+    <div class="m-5 grid grid-cols-1 md:grid-cols-2">
+      <router-view class="bg-gray-200 p-4 md:rounded-l-2xl"></router-view>
+      <div class="relative ">
+        <img class="w-full object-cover w-full h-full opacity-90 md:rounded-r-2xl"
+             src="./assets/couple.jpg"
+             alt="" />
+      </div>
   </div>
 </template>
 
