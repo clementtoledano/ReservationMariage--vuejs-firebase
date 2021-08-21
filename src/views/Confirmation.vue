@@ -1,75 +1,151 @@
 <template>
   <div class="lg:w-full">
-      <form class="" @submit.prevent="onFormSubmit">
-        <h1 class="text-center mb-4 text-xl">Votre confirmation</h1>
-        <div class="mb-4">
-          <label class="block text-gray-700 text-sm font-bold mb-2" for="lastname">Votre nom</label>
-          <input
-            id="lastname"
-            v-model="lastname"
-            type="text"
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="Nom"
-            required
-          />
-        </div>
-       <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="firstname">Votre prénom</label>
-          <input
-            id="firstname"
-            v-model="firstname"
-            type="text"
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="Prénom"
-            required
-          />
-        </div>
-       <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="adult">Nombre d'adulte</label>
-          <input
-            id="adult"
-            v-model="adult"
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            type="number"
-            required
-          />
-        </div>
-       <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="children">Nombre d'enfant</label>
-          <input
-            id="children"
-            v-model="children"
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            type="number"
-            required
-          />
-        </div>
-        <div class="mb-4 flex items-center ">
-          <input
-          id="sunday"
-          v-model="sunday"
-          class="mr-4"
-          type="checkbox"
+    <form class="" @submit.prevent="onFormSubmit">
+      <h1 class="text-center mb-4 text-xl">Votre confirmation</h1>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="lastname"
+          >Votre nom</label
+        >
+        <input
+          id="lastname"
+          v-model="lastname"
+          type="text"
+          class="
+            shadow
+            appearance-none
+            border
+            rounded
+            w-full
+            py-2
+            px-3
+            text-gray-700
+            leading-tight
+            focus:outline-none focus:shadow-outline
+          "
+          placeholder="Nom"
+          required
         />
-          <label class="block text-gray-700 text-sm font-bold" for="sunday"
+      </div>
+      <div class="mb-4">
+        <label
+          class="block text-gray-700 text-sm font-bold mb-2"
+          for="firstname"
+          >Votre prénom</label
+        >
+        <input
+          id="firstname"
+          v-model="firstname"
+          type="text"
+          class="
+            shadow
+            appearance-none
+            border
+            rounded
+            w-full
+            py-2
+            px-3
+            text-gray-700
+            leading-tight
+            focus:outline-none focus:shadow-outline
+          "
+          placeholder="Prénom"
+          required
+        />
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="adult"
+          >Nombre d'adulte</label
+        >
+        <input
+          id="adult"
+          v-model="adult"
+          class="
+            shadow
+            appearance-none
+            border
+            rounded
+            w-full
+            py-2
+            px-3
+            text-gray-700
+            leading-tight
+            focus:outline-none focus:shadow-outline
+          "
+          type="number"
+          required
+        />
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="children"
+          >Nombre d'enfant</label
+        >
+        <input
+          id="children"
+          v-model="children"
+          class="
+            shadow
+            appearance-none
+            border
+            rounded
+            w-full
+            py-2
+            px-3
+            text-gray-700
+            leading-tight
+            focus:outline-none focus:shadow-outline
+          "
+          type="number"
+          required
+        />
+      </div>
+      <div class="mb-4 flex items-center">
+        <input id="sunday" v-model="sunday" class="mr-4" type="checkbox" />
+        <label class="block text-gray-700 text-sm font-bold" for="sunday"
           >Votre présence le dimanche midi</label
-          >
-        </div>
-       <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="message">Un message pour nous ?</label>
-          <textarea
-            id="message"
-            v-model="message"
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            rows="3"
-          ></textarea>
-        </div>
-        <div class="mb-3">
-          <button class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" >Enregistrer</button>
-        </div>
+        >
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="message"
+          >Un message pour nous ?</label
+        >
+        <textarea
+          id="message"
+          v-model="message"
+          class="
+            shadow
+            appearance-none
+            border
+            rounded
+            w-full
+            py-2
+            px-3
+            text-gray-700
+            leading-tight
+            focus:outline-none focus:shadow-outline
+          "
+          rows="3"
+        ></textarea>
+      </div>
+      <div class="mb-3">
+        <button
+          class="
+            w-full
+            bg-blue-500
+            hover:bg-blue-700
+            text-white
+            font-bold
+            py-2
+            px-4
+            rounded
+            focus:outline-none focus:shadow-outline
+          "
+        >
+          Enregistrer
+        </button>
+      </div>
       <h3>Fin des modifications le 15 octobre</h3>
-      </form>
-    </div>
+    </form>
+  </div>
 </template>
 
 <script setup>

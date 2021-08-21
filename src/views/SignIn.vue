@@ -3,28 +3,65 @@
     <form class="" @submit.prevent="onFormSubmit">
       <h1 class="text-center mb-4 text-xl">Connexion</h1>
       <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Votre email</label>
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="email"
+          >Votre email</label
+        >
         <input
           v-model="email"
           type="text"
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          class="
+            shadow
+            appearance-none
+            border
+            rounded
+            w-full
+            py-2
+            px-3
+            text-gray-700
+            leading-tight
+            focus:outline-none focus:shadow-outline
+          "
           placeholder="Email"
           required
         />
       </div>
       <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Votre mot de passe</label>
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="password"
+          >Votre mot de passe</label
+        >
         <input
           v-model="password"
           type="password"
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          class="
+            shadow
+            appearance-none
+            border
+            rounded
+            w-full
+            py-2
+            px-3
+            text-gray-700
+            leading-tight
+            focus:outline-none focus:shadow-outline
+          "
           placeholder="Password"
           required
         />
       </div>
-      <p class="mb-4 text-red-500 text-xs italic" v-if="errMsg">{{ errMsg }}</p>
+      <p v-if="errMsg" class="mb-4 text-red-500 text-xs italic">{{ errMsg }}</p>
       <button
-        class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+        class="
+          w-full
+          bg-blue-500
+          hover:bg-blue-700
+          text-white
+          font-bold
+          py-2
+          px-4
+          rounded
+          focus:outline-none focus:shadow-outline
+        "
+      >
         Connexion
       </button>
     </form>
