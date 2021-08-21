@@ -1,41 +1,78 @@
 <template>
-  <h1>Votre confirmation</h1>
-  <div>
-    <label for="lastname">Votre nom</label>
-    <input id="lastname" type="text" placeholder="Nom" v-model="lastname" />
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h1 class="text-center">Votre confirmation</h1>
+      <form @submit.prevent="onFormSubmit">
+        <div class="mb-3">
+          <label class="form-label" for="lastname">Votre nom</label>
+          <input
+            id="lastname"
+            v-model="lastname"
+            type="text"
+            class="form-control"
+            placeholder="Nom"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="firstname">Votre prénom</label>
+          <input
+            id="firstname"
+            v-model="firstname"
+            type="text"
+            class="form-control"
+            placeholder="Prénom"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="adult">Nombre d'adulte</label>
+          <input
+            id="adult"
+            v-model="adult"
+            class="form-control"
+            type="number"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="children">Nombre d'enfant</label>
+          <input
+            id="children"
+            v-model="children"
+            class="form-control"
+            type="number"
+            required
+          />
+        </div>
+        <div class="form-check mb-3">
+          <input
+            id="sunday"
+            v-model="sunday"
+            class="form-check-input"
+            type="checkbox"
+          />
+          <label class="form-check-label" for="sunday"
+            >Votre présence le dimanche midi</label
+          >
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="message">Un message pour nous ?</label>
+          <textarea
+            id="message"
+            v-model="message"
+            class="form-control"
+            placeholder="un message a notre attention ?"
+            rows="3"
+          ></textarea>
+        </div>
+        <div class="mb-3">
+          <button class="btn btn-primary btn-block">Enregistrer</button>
+        </div>
+      </form>
+      <h3>Fin des modifications le 15 octobre</h3>
+    </div>
   </div>
-  <div>
-    <label for="firstname">Votre prénom</label>
-    <input
-      id="firstname"
-      type="text"
-      placeholder="Prénom"
-      v-model="firstname"
-    />
-  </div>
-  <div>
-    <label for="adult">Nombre d'adulte</label>
-    <input id="adult" type="number" v-model="adult" />
-  </div>
-  <div>
-    <label for="children">Nombre d'enfant</label>
-    <input id="children" type="number" v-model="children" />
-  </div>
-  <div>
-    <label for="sunday">Votre présence le dimanche midi</label>
-    <input id="sunday" type="checkbox" v-model="sunday" />
-  </div>
-  <label for="message">Un message pour nous ?</label>
-  <br />
-  <textarea
-    id="message"
-    v-model="message"
-    placeholder="un message a notre attention ?"
-  ></textarea>
-  <div>
-    <button @click="submit">Enregistrer</button>
-  </div>
-  <h3>Fin des modifications le 15 octobre</h3>
 </template>
 
 <script setup>
@@ -81,7 +118,7 @@ const authListener = firebase.auth().onAuthStateChanged((user) => {
   }
 });
 
-const submit = (event) => {
+const onFormSubmit = (event) => {
   event.preventDefault();
   if (newUser.value) {
     createConfirmation();

@@ -1,9 +1,35 @@
 <template>
-  <h1>Login to Your Account</h1>
-  <p><input type="text" placeholder="Email" v-model="email" /></p>
-  <p><input type="password" placeholder="Password" v-model="password" /></p>
-  <p v-if="errMsg">{{ errMsg }}</p>
-  <p><button @click="signIn">Submit</button></p>
+  <div class="row justify-content-center">
+    <div class="col-md-5">
+      <h1 class="text-center">Login to Your Account</h1>
+      <form @submit.prevent="onFormSubmit">
+        <div class="mb-3">
+          <label>Votre email</label>
+          <input
+            v-model="email"
+            type="text"
+            class="form-control"
+            placeholder="Email"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label>Votre mot de passe</label>
+          <input
+            v-model="password"
+            type="password"
+            class="form-control"
+            placeholder="Password"
+            required
+          />
+        </div>
+        <p v-if="errMsg">{{ errMsg }}</p>
+        <div class="mb-3">
+          <button class="btn btn-primary btn-block">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -14,7 +40,7 @@ const email = ref("");
 const password = ref("");
 const errMsg = ref(); // ERROR MESSAGE
 const router = useRouter(); // get a reference to our vue router
-const signIn = () => {
+const onFormSubmit = () => {
   // we also renamed this method
   firebase
     .auth()

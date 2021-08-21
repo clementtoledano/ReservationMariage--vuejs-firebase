@@ -1,25 +1,29 @@
 <template>
-  <div class="accueil">
-    <h1>Manon <br />&<br />Clement</h1>
-    <h2>30 Octobre 2021</h2>
-    <h1>J - {{ jour() }}</h1>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="accueil">
+        <h1 class="text-center">Manon <br />&<br />Clement</h1>
+        <h2 class="text-center">30 Octobre 2021</h2>
+        <h1 class="text-center">J - {{ jour() }}</h1>
 
-    <br />
-    <div>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci autem
-      consequatur consequuntur dicta dignissimos error expedita impedit ipsum,
-      iste iure laudantium natus, nisi odio officia quas quod tempore temporibus
-      voluptas?
+        <br />
+        <div>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci
+          autem consequatur consequuntur dicta dignissimos error expedita
+          impedit ipsum, iste iure laudantium natus, nisi odio officia quas quod
+          tempore temporibus voluptas?
+        </div>
+        <div>
+          Assumenda, autem consequatur consequuntur, corporis eius eligendi esse
+          est eveniet exercitationem fugit hic illum ipsum maxime nostrum
+          numquam omnis quae ratione repellat sequi similique veniam, voluptates
+          voluptatum. Incidunt, sapiente voluptatem?
+        </div>
+        <router-link to="/confirmation" class="text-center"
+          ><h1>Confirmer votre présence</h1></router-link
+        >
+      </div>
     </div>
-    <div>
-      Assumenda, autem consequatur consequuntur, corporis eius eligendi esse est
-      eveniet exercitationem fugit hic illum ipsum maxime nostrum numquam omnis
-      quae ratione repellat sequi similique veniam, voluptates voluptatum.
-      Incidunt, sapiente voluptatem?
-    </div>
-    <router-link to="/confirmation"
-      ><h1>Confirmer votre présence</h1></router-link
-    >
   </div>
 </template>
 <script setup>
