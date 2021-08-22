@@ -7,37 +7,15 @@
           MARIAGE DE MANON & CLEMENT
         </h1>
         <!-- Navbar items -->
+
         <div class="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
-          <router-link
-            class="nav-link font-medium text-gray-500 hover:text-gray-900"
-            to="/"
-          >Accueil</router-link
-          >
-          <router-link
-            class="nav-link font-medium text-gray-500 hover:text-gray-900"
-            to="/confirmation"
-          >
-            Confirmation
-          </router-link>
-          <router-link
-            v-if="!props.isLoggedIn"
-            class="nav-link font-medium text-gray-500 hover:text-gray-900"
-            to="/register"
-          >S'inscrire
-          </router-link>
-          <router-link
-            v-if="!props.isLoggedIn"
-            class="nav-link font-medium text-gray-500 hover:text-gray-900"
-            to="/sign-in"
-          >Se Connecter
-          </router-link>
-          <a
-            v-if="props.isLoggedIn"
-            class="nav-link font-medium text-gray-500 hover:text-gray-900"
-            href="#"
-            @click="signOut"
-          >Déconnection</a
-          >
+          <NavLink to="/" name="Accueil"></NavLink>
+          <NavLink to="/confirmation" name="Confirmation"></NavLink>
+          <span v-if="!props.isLoggedIn" class="md:space-x-8">
+            <NavLink to="/register" name="Inscription"></NavLink>
+            <NavLink to="/sign-in" name="Connection"></NavLink>
+          </span>
+          <NavLink v-if="props.isLoggedIn" to="#" @click="signOut" name="Déconnection"></NavLink>
         </div>
         <!-- Mobile menu button -->
         <div class="md:hidden flex items-center">
@@ -67,111 +45,43 @@
       leave-to-class="opacity-0"
     >
       <div v-show="menu" class="p-2 transition-all transform md:hidden">
-        <router-link
-          class="
-            nav-link
-            block
-            px-3
-            py-2
-            rounded-md
-            text-base
-            font-medium
-            text-gray-700
-            hover:text-gray-900 hover:bg-gray-50
-          "
-          to="/"
-        >Accueil
-        </router-link>
-        <router-link
-          class="
-            nav-link
-            block
-            px-3
-            py-2
-            rounded-md
-            text-base
-            font-medium
-            text-gray-700
-            hover:text-gray-900 hover:bg-gray-50
-          "
-          to="/confirmation"
-        >Confirmation
-        </router-link>
-        <router-link
-          v-if="!props.isLoggedIn"
-          class="
-            nav-link
-            block
-            px-3
-            py-2
-            rounded-md
-            text-base
-            font-medium
-            text-gray-700
-            hover:text-gray-900 hover:bg-gray-50
-          "
-          to="/register"
-        >S'inscrire
-        </router-link>
-        <router-link
-          v-if="!props.isLoggedIn"
-          class="
-            nav-link
-            block
-            px-3
-            py-2
-            rounded-md
-            text-base
-            font-medium
-            text-gray-700
-            hover:text-gray-900 hover:bg-gray-50
-          "
-          to="/sign-in"
-        >Se Connecter
-        </router-link>
-        <a
-          v-if="props.isLoggedIn"
-          class="
-            nav-link
-            block
-            w-full
-            px-5
-            py-3
-            text-center
-            font-medium
-            text-indigo-600
-            bg-gray-50
-            hover:bg-gray-100
-          "
-          href="#"
-          @click="signOut"
-        >Déconnection</a
-        >
+        <MobileNavLink to="/" name="Accueil"></MobileNavLink>
+        <MobileNavLink to="/confirmation" name="Confirmation"></MobileNavLink>
+        <span v-if="!props.isLoggedIn" class="md:space-x-8">
+            <MobileNavLink to="/register" name="Inscription"></MobileNavLink>
+            <MobileNavLink to="/sign-in" name="Connection"></MobileNavLink>
+          </span>
+        <MobileNavLink v-if="props.isLoggedIn" to="#" @click="signOut" name="Déconnection"></MobileNavLink>
       </div>
     </transition>
   </nav>
 </template>
 <script>
 import { defineComponent, ref } from "vue";
+import NavLink from "./NavLink";
+import MobileNavLink from "./MobileNavLink";
 
 export default defineComponent({
-  name: 'Navbar',
+  name: "Navbar",
+  components: { MobileNavLink, NavLink },
   props: {
-    isLoggedIn:  Boolean
+    isLoggedIn: Boolean
   },
-  emits: ['signOut'],
+  emits: ["signOut"],
   setup(props, context) {
 
     const menu = ref(false);
-    function signOut(){
-      context.emit('signOut')
+
+    function signOut() {
+      context.emit("signOut");
     }
+
     return {
       props,
       menu,
       signOut
-    }
+    };
   }
 
-})
+});
 </script>
