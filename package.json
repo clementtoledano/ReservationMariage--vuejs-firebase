@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "start": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
-    "format": "prettier .  --write"
+    "format": "prettier .  --write",
+    "start": "node server.js"
   },
   "dependencies": {
     "@tailwindcss/postcss7-compat": "^2.0.2",
