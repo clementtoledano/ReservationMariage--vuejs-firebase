@@ -9,7 +9,7 @@
              placeholder="Nombre d'enfant"></Input>
 
       <div class="mb-4 flex items-center">
-        <input id="sunday" v-model="sunday" class="mr-4" type="checkbox" />
+        <input id="sunday" v-model="sunday" class="mr-4" type="checkbox" placeholder=""/>
         <label class="block text-gray-700 text-sm font-bold" for="sunday"
         >Votre présence le dimanche midi</label
         >
@@ -37,7 +37,7 @@
         ></textarea>
       </div>
       <Button v-if="!isPending">Confirmer</Button>
-      <Button v-else>Enregistrement...</Button>
+      <DisabledButton v-else>Enregistrement...</DisabledButton>
       <h3>Fin des modifications le 15 octobre</h3>
     </form>
   </div>
@@ -49,10 +49,12 @@ import { useRouter } from "vue-router";
 import { defineComponent, onBeforeUnmount, ref } from "vue";
 import Button from "../components/Button";
 import Input from "../components/Input";
+import DisabledButton from "../components/DisabledButton";
+import confirmationApi from "../service/confirmationApi";
 
 export default defineComponent({
   name: "Confirmation",
-  components: { Button, Input },
+  components: { DisabledButton, Button, Input },
   setup() {
 
     const router = useRouter();
@@ -91,60 +93,26 @@ export default defineComponent({
         });
       }
     });
-    const onFormSubmit = (event) => {
-        isPending.value = true;
-      event.preventDefault();
-      setTimeout(function()  {
-
-
+    const onFormSubmit = () => {
+      isPending.value = true;
+      setTimeout(function() {
         if (newUser.value) {
           createConfirmation();
         } else {
           updateConfirmation();
         }
-      isPending.value = false;
+        isPending.value = false;
       }, 2000);
 
     };
-    const createConfirmation = async () => {
-      await firebase
-        .firestore()
-        .collection("confirmation")
-        .add({
-          userEmail: firebase.auth().currentUser.email,
-          lastname: lastname.value,
-          firstname: firstname.value,
-          adult: adult.value,
-          children: children.value,
-          message: message.value,
-          sunday: sunday.value
-        })
-        .then(() => {
-          alert("User successfully created!");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+
+    const createConfirmation = () => {
+      confirmationApi.create(lastname, firstname, adult, children, message, sunday);
     };
-    const updateConfirmation = async () => {
-      await firebase
-        .firestore()
-        .collection("confirmation")
-        .doc(id.value)
-        .update({
-          lastname: lastname.value,
-          firstname: firstname.value,
-          adult: adult.value,
-          children: children.value,
-          message: message.value,
-          sunday: sunday.value
-        })
-        .then(() => {
-          alert("La confirmation a été mise à jour!");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+
+    const updateConfirmation = () => {
+      confirmationApi.update(id, lastname, firstname, adult, children, message, sunday);
+
     };
     onBeforeUnmount(() => {
       // clear up listener

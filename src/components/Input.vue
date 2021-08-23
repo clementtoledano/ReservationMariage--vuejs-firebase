@@ -32,7 +32,7 @@ import { defineComponent, ref } from "vue";
 export default defineComponent({
   name: "Input",
   props: {
-    modelValue: String,
+    modelValue: { type: String, default: "" },
     type: { type: String, default: "", required: true },
     id: { type: String, default: "", required: true },
     label: { type: String, default: "", required: true },

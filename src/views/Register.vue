@@ -8,7 +8,7 @@
              placeholder="*****"></Input>
       <p v-if="errMsg" class="mb-4 text-red-500 text-xs italic">{{ errMsg }}</p>
       <Button v-if="!isPending">Créer le compte</Button>
-      <Button v-else>Creation...</Button>
+      <DisabledButton v-else>Creation...</DisabledButton>
     </form>
   </div>
 </template>
@@ -16,14 +16,15 @@
 <script>
 import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
-import firebase from "firebase";
 import Button from "../components/Button";
 import Input from "../components/Input";
+import DisabledButton from "../components/DisabledButton";
+import AuthApi from "../service/authApi";
 
 
 export default defineComponent({
   name: "Register",
-  components: { Button, Input },
+  components: { DisabledButton, Button, Input },
   setup() {
     const router = useRouter();
     const email = ref("");
@@ -32,34 +33,11 @@ export default defineComponent({
     const errMsg = ref("");
     const isPending = ref(false);
 
-    const onFormSubmit = (event) => {
+    const onFormSubmit = () => {
       isPending.value = true;
-      event.preventDefault();
       setTimeout(function() {
         if (password.value === rePassword.value) {
-          firebase
-            .auth() // get the auth api
-            .createUserWithEmailAndPassword(email.value, password.value)
-            .then(() => {
-              router.push("/confirmation");
-            })
-            .catch((error) => {
-              console.log(error);
-              switch (error.code) {
-                case "auth/invalid-email":
-                  errMsg.value = "Email invalide";
-                  break;
-                case "auth/weak-password":
-                  errMsg.value = "le password doit faire au moins 6 caractères";
-                  break;
-                case "auth/email-already-in-use":
-                  errMsg.value = "l'email est déjà utilisé";
-                  break;
-                default:
-                  errMsg.value = "Email ou password incorrect";
-                  break;
-              }
-            });
+      AuthApi.register(email, password, errMsg);
         } else {
           errMsg.value = "La vérification du password n'est pas correcte";
         }

@@ -6,54 +6,39 @@
       <Input id="password" v-model="password" type="password" label="Votre Password" placeholder="*****"></Input>
 
       <p v-if="errMsg" class="mb-4 text-red-500 text-xs italic">{{ errMsg }}</p>
-      <Button>Connection</Button>
+      <Button v-if="!isPending">Se connecter</Button>
+      <DisabledButton v-else>Connection...</DisabledButton>
     </form>
   </div>
 </template>
 
 <script>
 import { defineComponent, ref } from "vue";
-import firebase from "firebase";
+import AuthApi from "../service/authApi";
 import { useRouter } from "vue-router";
 import Input from "../components/Input";
 import Button from "../components/Button";
+import DisabledButton from "../components/DisabledButton";
 
 export default defineComponent({
   name: "SignIn",
-  components: { Button, Input },
+  components: { DisabledButton, Button, Input },
   setup() {
     const email = ref("");
     const password = ref("");
     const errMsg = ref();
     const router = useRouter();
+    const isPending = ref(false);
 
     const onFormSubmit = () => {
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(email.value, password.value)
-        .then(() => {
-          router.push("/confirmation");
-        })
-        .catch((error) => {
-          switch (error.code) {
-            case "auth/invalid-email":
-              errMsg.value = "Email invalide";
-              break;
-            case "auth/user-not-found":
-              errMsg.value = "Le compte n'éxiste pas avec cet email";
-              break;
-            case "auth/wrong-password":
-              errMsg.value = "Password incorrect";
-              break;
-            default:
-              errMsg.value = "Email ou password incorrect";
-              break;
-          }
-        });
-
+      isPending.value = true;
+      setTimeout(function() {
+        AuthApi.signIn(email, password, errMsg);
+        isPending.value = false;
+      }, 2000);
     };
     return {
-      email, password, errMsg, router, onFormSubmit
+      email, password, errMsg, router, onFormSubmit, isPending
     };
   }
 });
