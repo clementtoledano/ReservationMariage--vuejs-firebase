@@ -1,6 +1,37 @@
 import firebase from "firebase";
 
 export default {
+  async getConfirmation(
+    id,
+    user,
+    lastname,
+    firstname,
+    adult,
+    children,
+    message,
+    sunday,
+    newUser
+  ) {
+    firebase
+      .firestore()
+      .collection("confirmation")
+      .onSnapshot(function (snapshot) {
+        snapshot.docChanges().forEach(function (change) {
+          const data = change.doc.data();
+
+          if (user.email === data.userEmail) {
+            lastname.value = data.lastname;
+            firstname.value = data.firstname;
+            adult.value = data.adult;
+            children.value = data.children;
+            message.value = data.message;
+            sunday.value = data.sunday;
+            newUser.value = false;
+            id.value = change.doc.id;
+          }
+        });
+      });
+  },
   async create(lastname, firstname, adult, children, message, sunday) {
     return await firebase
       .firestore()

@@ -9,7 +9,7 @@
              placeholder="Nombre d'enfant"></Input>
 
       <div class="mb-4 flex items-center">
-        <input id="sunday" v-model="sunday" class="mr-4" type="checkbox" placeholder=""/>
+        <input id="sunday" v-model="sunday" class="mr-4" type="checkbox" placeholder="" />
         <label class="block text-gray-700 text-sm font-bold" for="sunday"
         >Votre présence le dimanche midi</label
         >
@@ -44,13 +44,13 @@
 </template>
 
 <script>
-import firebase from "firebase";
 import { useRouter } from "vue-router";
-import { defineComponent, onBeforeUnmount, ref } from "vue";
+import { defineComponent, ref } from "vue";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import DisabledButton from "../components/DisabledButton";
 import confirmationApi from "../service/confirmationApi";
+import authApi from "../service/authApi";
 
 export default defineComponent({
   name: "Confirmation",
@@ -68,56 +68,38 @@ export default defineComponent({
     const id = ref("");
     const isPending = ref(false);
 
-    const authListener = firebase.auth().onAuthStateChanged((user) => {
-      if (!user) {
-        // not logged in
-        alert("Vous devez vous connecter pour accéder à cette page");
-        router.push("/");
-      } else {
-        const query = firebase.firestore().collection("confirmation");
-        query.onSnapshot(function(snapshot) {
-          snapshot.docChanges().forEach(function(change) {
-            const data = change.doc.data();
+    const user = authApi.currentUser();
 
-            if (user.email === data.userEmail) {
-              lastname.value = data.lastname;
-              firstname.value = data.firstname;
-              adult.value = data.adult;
-              children.value = data.children;
-              message.value = data.message;
-              sunday.value = data.sunday;
-              newUser.value = false;
-              id.value = change.doc.id;
-            }
-          });
-        });
-      }
-    });
+    if (!user) {
+      alert("Vous devez vous connecter pour accéder à cette page");
+      router.push("/");
+    } else {
+      confirmationApi.getConfirmation(
+        id,
+        user,
+        lastname,
+        firstname,
+        adult,
+        children,
+        message,
+        sunday,
+        newUser
+      );
+    }
+
     const onFormSubmit = () => {
       isPending.value = true;
       setTimeout(function() {
         if (newUser.value) {
-          createConfirmation();
+          confirmationApi.create(lastname, firstname, adult, children, message, sunday);
         } else {
-          updateConfirmation();
+          confirmationApi.update(id, lastname, firstname, adult, children, message, sunday);
         }
         isPending.value = false;
       }, 2000);
-
     };
 
-    const createConfirmation = () => {
-      confirmationApi.create(lastname, firstname, adult, children, message, sunday);
-    };
 
-    const updateConfirmation = () => {
-      confirmationApi.update(id, lastname, firstname, adult, children, message, sunday);
-
-    };
-    onBeforeUnmount(() => {
-      // clear up listener
-      authListener();
-    });
     return {
       router,
       lastname,
@@ -128,7 +110,7 @@ export default defineComponent({
       sunday,
       newUser,
       id,
-      authListener,
+
       onFormSubmit,
       isPending
     };

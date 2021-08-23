@@ -2,6 +2,9 @@ import firebase from "firebase";
 import router from "../router";
 
 export default {
+  currentUser() {
+    return firebase.auth().currentUser;
+  },
   async signIn(email, password, errMsg) {
     return await firebase
       .auth()
