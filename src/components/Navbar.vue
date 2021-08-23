@@ -7,7 +7,6 @@
           MARIAGE DE MANON & CLEMENT
         </h1>
         <!-- Navbar items -->
-
         <div class="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
           <NavLink to="/" name="Accueil"></NavLink>
           <NavLink to="/confirmation" name="Confirmation"></NavLink>

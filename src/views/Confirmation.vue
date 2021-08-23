@@ -2,111 +2,21 @@
   <div class="lg:w-full">
     <form class="" @submit.prevent="onFormSubmit">
       <h1 class="text-center mb-4 text-xl">Votre confirmation</h1>
-      <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="lastname"
-          >Votre nom</label
-        >
-        <input
-          id="lastname"
-          v-model="lastname"
-          type="text"
-          class="
-            shadow
-            appearance-none
-            border
-            rounded
-            w-full
-            py-2
-            px-3
-            text-gray-700
-            leading-tight
-            focus:outline-none focus:shadow-outline
-          "
-          placeholder="Nom"
-          required
-        />
-      </div>
-      <div class="mb-4">
-        <label
-          class="block text-gray-700 text-sm font-bold mb-2"
-          for="firstname"
-          >Votre prénom</label
-        >
-        <input
-          id="firstname"
-          v-model="firstname"
-          type="text"
-          class="
-            shadow
-            appearance-none
-            border
-            rounded
-            w-full
-            py-2
-            px-3
-            text-gray-700
-            leading-tight
-            focus:outline-none focus:shadow-outline
-          "
-          placeholder="Prénom"
-          required
-        />
-      </div>
-      <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="adult"
-          >Nombre d'adulte</label
-        >
-        <input
-          id="adult"
-          v-model="adult"
-          class="
-            shadow
-            appearance-none
-            border
-            rounded
-            w-full
-            py-2
-            px-3
-            text-gray-700
-            leading-tight
-            focus:outline-none focus:shadow-outline
-          "
-          type="number"
-          required
-        />
-      </div>
-      <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="children"
-          >Nombre d'enfant</label
-        >
-        <input
-          id="children"
-          v-model="children"
-          class="
-            shadow
-            appearance-none
-            border
-            rounded
-            w-full
-            py-2
-            px-3
-            text-gray-700
-            leading-tight
-            focus:outline-none focus:shadow-outline
-          "
-          type="number"
-          required
-        />
-      </div>
+      <Input id="lastname" v-model="lastname" type="text" label="Votre nom" placeholder="nom"></Input>
+      <Input id="firstname" v-model="firstname" type="text" label="Votre prenom" placeholder="prénom"></Input>
+      <Input id="adult" v-model="adult" type="number" label="Nombre d'adulte" placeholder="Nombre d'adulte"></Input>
+      <Input id="children" v-model="children" type="number" label="Nombre d'enfant de moins de 10 ans"
+             placeholder="Nombre d'enfant"></Input>
+
       <div class="mb-4 flex items-center">
         <input id="sunday" v-model="sunday" class="mr-4" type="checkbox" />
         <label class="block text-gray-700 text-sm font-bold" for="sunday"
-          >Votre présence le dimanche midi</label
+        >Votre présence le dimanche midi</label
         >
       </div>
       <div class="mb-4">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="message"
-          >Un message pour nous ?</label
+        >Un message pour nous ?</label
         >
         <textarea
           id="message"
@@ -126,124 +36,135 @@
           rows="3"
         ></textarea>
       </div>
-      <div class="mb-3">
-        <button
-          class="
-            w-full
-            bg-blue-500
-            hover:bg-blue-700
-            text-white
-            font-bold
-            py-2
-            px-4
-            rounded
-            focus:outline-none focus:shadow-outline
-          "
-        >
-          Enregistrer
-        </button>
-      </div>
+      <Button v-if="!isPending">Confirmer</Button>
+      <Button v-else>Enregistrement...</Button>
       <h3>Fin des modifications le 15 octobre</h3>
     </form>
   </div>
 </template>
 
-<script setup>
+<script>
 import firebase from "firebase";
-
 import { useRouter } from "vue-router";
-import { onBeforeUnmount, ref } from "vue";
+import { defineComponent, onBeforeUnmount, ref } from "vue";
+import Button from "../components/Button";
+import Input from "../components/Input";
 
-const router = useRouter();
+export default defineComponent({
+  name: "Confirmation",
+  components: { Button, Input },
+  setup() {
 
-const lastname = ref("");
-const firstname = ref("");
-const adult = ref(1);
-const children = ref(0);
-const message = ref("");
-const sunday = ref(false);
-const newUser = ref(true);
-const id = ref("");
+    const router = useRouter();
+    const lastname = ref("");
+    const firstname = ref("");
+    const adult = ref(1);
+    const children = ref(0);
+    const message = ref("");
+    const sunday = ref(false);
+    const newUser = ref(true);
+    const id = ref("");
+    const isPending = ref(false);
 
-const authListener = firebase.auth().onAuthStateChanged((user) => {
-  if (!user) {
-    // not logged in
-    alert("Vous devez vous connecter pour accéder à cette page");
-    router.push("/");
-  } else {
-    const query = firebase.firestore().collection("confirmation");
-    query.onSnapshot(function (snapshot) {
-      snapshot.docChanges().forEach(function (change) {
-        const data = change.doc.data();
+    const authListener = firebase.auth().onAuthStateChanged((user) => {
+      if (!user) {
+        // not logged in
+        alert("Vous devez vous connecter pour accéder à cette page");
+        router.push("/");
+      } else {
+        const query = firebase.firestore().collection("confirmation");
+        query.onSnapshot(function(snapshot) {
+          snapshot.docChanges().forEach(function(change) {
+            const data = change.doc.data();
 
-        if (user.email === data.userEmail) {
-          lastname.value = data.lastname;
-          firstname.value = data.firstname;
-          adult.value = data.adult;
-          children.value = data.children;
-          message.value = data.message;
-          sunday.value = data.sunday;
-          newUser.value = false;
-          id.value = change.doc.id;
+            if (user.email === data.userEmail) {
+              lastname.value = data.lastname;
+              firstname.value = data.firstname;
+              adult.value = data.adult;
+              children.value = data.children;
+              message.value = data.message;
+              sunday.value = data.sunday;
+              newUser.value = false;
+              id.value = change.doc.id;
+            }
+          });
+        });
+      }
+    });
+    const onFormSubmit = (event) => {
+        isPending.value = true;
+      event.preventDefault();
+      setTimeout(function()  {
+
+
+        if (newUser.value) {
+          createConfirmation();
+        } else {
+          updateConfirmation();
         }
-      });
+      isPending.value = false;
+      }, 2000);
+
+    };
+    const createConfirmation = async () => {
+      await firebase
+        .firestore()
+        .collection("confirmation")
+        .add({
+          userEmail: firebase.auth().currentUser.email,
+          lastname: lastname.value,
+          firstname: firstname.value,
+          adult: adult.value,
+          children: children.value,
+          message: message.value,
+          sunday: sunday.value
+        })
+        .then(() => {
+          alert("User successfully created!");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    const updateConfirmation = async () => {
+      await firebase
+        .firestore()
+        .collection("confirmation")
+        .doc(id.value)
+        .update({
+          lastname: lastname.value,
+          firstname: firstname.value,
+          adult: adult.value,
+          children: children.value,
+          message: message.value,
+          sunday: sunday.value
+        })
+        .then(() => {
+          alert("La confirmation a été mise à jour!");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    onBeforeUnmount(() => {
+      // clear up listener
+      authListener();
     });
+    return {
+      router,
+      lastname,
+      firstname,
+      adult,
+      children,
+      message,
+      sunday,
+      newUser,
+      id,
+      authListener,
+      onFormSubmit,
+      isPending
+    };
   }
 });
 
-const onFormSubmit = (event) => {
-  event.preventDefault();
-  if (newUser.value) {
-    createConfirmation();
-  } else {
-    updateConfirmation();
-  }
-};
-
-const createConfirmation = async () => {
-  await firebase
-    .firestore()
-    .collection("confirmation")
-    .add({
-      userEmail: firebase.auth().currentUser.email,
-      lastname: lastname.value,
-      firstname: firstname.value,
-      adult: adult.value,
-      children: children.value,
-      message: message.value,
-      sunday: sunday.value,
-    })
-    .then(() => {
-      alert("User successfully created!");
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
-const updateConfirmation = async () => {
-  await firebase
-    .firestore()
-    .collection("confirmation")
-    .doc(id.value)
-    .update({
-      lastname: lastname.value,
-      firstname: firstname.value,
-      adult: adult.value,
-      children: children.value,
-      message: message.value,
-      sunday: sunday.value,
-    })
-    .then(() => {
-      alert("La confirmation a été mise à jour!");
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
-onBeforeUnmount(() => {
-  // clear up listener
-  authListener();
-});
 </script>

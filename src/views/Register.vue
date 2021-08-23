@@ -2,90 +2,73 @@
   <div class="lg:w-full">
     <form class="" @submit.prevent="onFormSubmit">
       <h1 class="text-center mb-4 text-xl">Inscription</h1>
-      <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="email"
-          >Votre email</label
-        >
-        <input
-          v-model="email"
-          type="text"
-          class="
-            shadow
-            appearance-none
-            border
-            rounded
-            w-full
-            py-2
-            px-3
-            text-gray-700
-            leading-tight
-            focus:outline-none focus:shadow-outline
-          "
-          placeholder="Email"
-          required
-        />
-      </div>
-      <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="password"
-          >Votre mot de passe</label
-        >
-        <input
-          v-model="password"
-          type="password"
-          class="
-            shadow
-            appearance-none
-            border
-            rounded
-            w-full
-            py-2
-            px-3
-            text-gray-700
-            leading-tight
-            focus:outline-none focus:shadow-outline
-          "
-          placeholder="Password"
-          required
-        />
-      </div>
+      <Input id="email" v-model="email" type="text" label="Votre Email" placeholder="email"></Input>
+      <Input id="password" v-model="password" type="password" label="Votre Password" placeholder="*****"></Input>
+      <Input id="rePassword" v-model="rePassword" type="password" label="Confirmer le password"
+             placeholder="*****"></Input>
       <p v-if="errMsg" class="mb-4 text-red-500 text-xs italic">{{ errMsg }}</p>
-      <button
-        class="
-          w-full
-          bg-blue-500
-          hover:bg-blue-700
-          text-white
-          font-bold
-          py-2
-          px-4
-          rounded
-          focus:outline-none focus:shadow-outline
-        "
-      >
-        S'inscrire
-      </button>
+      <Button v-if="!isPending">Créer le compte</Button>
+      <Button v-else>Creation...</Button>
     </form>
   </div>
 </template>
 
-<script setup>
-import { ref } from "vue";
+<script>
+import { defineComponent, ref } from "vue";
+import { useRouter } from "vue-router";
 import firebase from "firebase";
-import { useRouter } from "vue-router"; // import router
-const email = ref("");
-const password = ref("");
-const router = useRouter();
-const onFormSubmit = () => {
-  firebase
-    .auth() // get the auth api
-    .createUserWithEmailAndPassword(email.value, password.value)
-    .then((data) => {
-      console.log("Successfully registered!" + data);
-      router.push("/confirmation");
-    })
-    .catch((error) => {
-      console.log(error.code);
-      alert(error.message);
-    });
-};
+import Button from "../components/Button";
+import Input from "../components/Input";
+
+
+export default defineComponent({
+  name: "Register",
+  components: { Button, Input },
+  setup() {
+    const router = useRouter();
+    const email = ref("");
+    const password = ref("");
+    const rePassword = ref("");
+    const errMsg = ref("");
+    const isPending = ref(false);
+
+    const onFormSubmit = (event) => {
+      isPending.value = true;
+      event.preventDefault();
+      setTimeout(function() {
+        if (password.value === rePassword.value) {
+          firebase
+            .auth() // get the auth api
+            .createUserWithEmailAndPassword(email.value, password.value)
+            .then(() => {
+              router.push("/confirmation");
+            })
+            .catch((error) => {
+              console.log(error);
+              switch (error.code) {
+                case "auth/invalid-email":
+                  errMsg.value = "Email invalide";
+                  break;
+                case "auth/weak-password":
+                  errMsg.value = "le password doit faire au moins 6 caractères";
+                  break;
+                case "auth/email-already-in-use":
+                  errMsg.value = "l'email est déjà utilisé";
+                  break;
+                default:
+                  errMsg.value = "Email ou password incorrect";
+                  break;
+              }
+            });
+        } else {
+          errMsg.value = "La vérification du password n'est pas correcte";
+        }
+        isPending.value = false;
+      }, 2000);
+    };
+    return { email, password, rePassword, router, onFormSubmit, errMsg, isPending };
+  }
+});
+
+
 </script>
