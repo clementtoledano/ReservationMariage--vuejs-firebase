@@ -5,7 +5,7 @@
     <div class="relative">
       <img
         class="w-full object-cover w-full h-full opacity-90 md:rounded-r-2xl"
-        src="./../assets/couple.jpg"
+        src="./../assets/nous.jpg"
         alt=""
       />
     </div>
