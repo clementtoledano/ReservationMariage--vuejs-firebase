@@ -33,7 +33,8 @@
           <td class="px-4 py-3 text-xs border">
             <span
               :class="confirmation.sunday ? 'text-green-700 bg-green-100' : '' "
-              class="px-2 py-1 font-semibold leading-tight  rounded-sm"> {{ confirmation.sunday ? "présent" : "non" }} </span>
+              class="px-2 py-1 font-semibold leading-tight  rounded-sm"> {{ confirmation.sunday ? "présent" : "non"
+              }} </span>
           </td>
           <td class="px-4 py-3 text-sm border">{{ confirmation.message }}</td>
         </tr>
@@ -44,16 +45,16 @@
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import firebase from "firebase";
 
 export default defineComponent({
   name: "Admin",
   setup() {
-    const totalCount = ref(88);
-    const adultCount = ref(55);
-    const childrenCount = ref(33);
-    const sundayCount = ref(50);
+    const totalCount = ref(0);
+    const adultCount = ref(0);
+    const childrenCount = ref(0);
+    const sundayCount = ref(0);
     const confirmationList = ref([]);
 
     const confirmationCollection = firebase
@@ -62,13 +63,22 @@ export default defineComponent({
 
     confirmationCollection.get()
       .then((snapshot) => {
-        confirmationList.value = snapshot.docs.map((doc) => ({
+        const data = snapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data()
         }));
-        console.log(confirmationList.value);
-      });
+        confirmationList.value = data;
 
+        data.forEach(row => {
+          adultCount.value += +row["adult"];
+          childrenCount.value += +row["children"];
+          if (row.sunday === true) {
+            sundayCount.value += +row["adult"] + +row["children"];
+          }
+        });
+
+      });
+    totalCount.value = computed(() => adultCount.value + childrenCount.value);
 
     return {
       totalCount, adultCount, childrenCount, sundayCount, confirmationList
