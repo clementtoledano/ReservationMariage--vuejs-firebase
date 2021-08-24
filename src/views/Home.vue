@@ -1,5 +1,5 @@
 <template>
-  <Navbar :is-logged-in=isLoggedIn @sign-out=signOut></Navbar>
+  <Navbar :is-logged-in=isLoggedIn @sign-out=signOut />
   <div class="m-5 grid grid-cols-1 md:grid-cols-2">
     <router-view class="bg-gray-200 p-4 md:rounded-l-2xl"></router-view>
     <div class="relative">
@@ -10,6 +10,8 @@
       />
     </div>
   </div>
+  <Map/>
+
 </template>
 
 <script>
@@ -17,15 +19,17 @@ import { defineComponent, ref } from "vue";
 import firebase from "firebase";
 import { useRouter } from "vue-router";
 import Navbar from "./../components/Navbar";
+import Map from "./../components/Map";
 
 export default defineComponent({
   name: "App",
-  components: { Navbar },
+  components: {
+    Navbar, Map
+  },
   setup() {
-
     const router = useRouter();
     const isLoggedIn = ref(false);
-// runs after firebase is initialized
+
     firebase.auth().onAuthStateChanged(function(user) {
       isLoggedIn.value = !!user; // bool
     });
@@ -34,10 +38,9 @@ export default defineComponent({
       firebase.auth().signOut();
       router.push("/");
     };
-
     return {
       signOut,
-      isLoggedIn
+      isLoggedIn,
     };
   }
 });
