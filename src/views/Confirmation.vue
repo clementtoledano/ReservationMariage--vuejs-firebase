@@ -74,7 +74,7 @@ export default defineComponent({
       alert("Vous devez vous connecter pour accéder à cette page");
       router.push("/");
     } else {
-      confirmationApi.getConfirmation(
+      confirmationApi.getConfirmationId(
         id,
         user,
         lastname,
@@ -110,7 +110,6 @@ export default defineComponent({
       sunday,
       newUser,
       id,
-
       onFormSubmit,
       isPending
     };

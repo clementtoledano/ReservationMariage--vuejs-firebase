@@ -1,7 +1,7 @@
 import firebase from "firebase";
 
 export default {
-  async getConfirmation(
+  async getConfirmationId(
     id,
     user,
     lastname,
