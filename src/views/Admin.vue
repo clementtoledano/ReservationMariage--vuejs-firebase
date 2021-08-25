@@ -1,40 +1,78 @@
 <template>
   <div class="bg-gray-100 grid grid-cols-2 sm:grid-cols-4 text-center">
-    <div class="m-2 p-5 border-2 border-gray-400 font-bold">TOTAL<br>{{ totalCount }}</div>
-    <div class="m-2 p-5 border-2 border-gray-400 font-bold">ADULTES<br>{{ adultCount }}</div>
-    <div class="m-2 p-5 border-2 border-gray-400 font-bold">ENFANTS<br>{{ childrenCount }}</div>
-    <div class="m-2 p-5 border-2 border-gray-400 font-bold">DIMANCHE<br>{{ sundayCount }}</div>
+    <div class="m-2 p-5 border-2 border-gray-400 font-bold">
+      TOTAL<br />{{ totalCount }}
+    </div>
+    <div class="m-2 p-5 border-2 border-gray-400 font-bold">
+      ADULTES<br />{{ adultCount }}
+    </div>
+    <div class="m-2 p-5 border-2 border-gray-400 font-bold">
+      ENFANTS<br />{{ childrenCount }}
+    </div>
+    <div class="m-2 p-5 border-2 border-gray-400 font-bold">
+      DIMANCHE<br />{{ sundayCount }}
+    </div>
   </div>
-  <div class="w-full mt-4 mb-4 overflow-hidden rounded-lg">
-    <div class="w-full">
-      <table class="w-full">
+
+  <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+    <div class="w-full overflow-x-auto">
+      <table class="table-fixed">
         <thead>
         <tr
-          class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
-          <th class="px-4 py-3">Nom</th>
-          <th class="px-4 py-3">Adulte</th>
-          <th class="px-4 py-3">Enfant</th>
-          <th class="px-4 py-3">Dimanche</th>
+           class="
+              text-md
+              font-semibold
+              tracking-wide
+              text-left text-gray-900
+              bg-gray-100
+              uppercase
+              border-b
+              border-gray-600
+            "
+        >
+          <th class="px-4 py-3 w-15">Infos</th>
+          <th class="px-4 py-3 w-24">Présence</th>
           <th class="px-4 py-3">Message</th>
         </tr>
         </thead>
         <tbody class="bg-white">
-        <tr v-for="confirmation in confirmationList" :key="confirmation.id" class="text-gray-700">
-          <td class="px-4 py-3 border">
-            <div class="flex items-center text-sm">
-              <div>
-                <p class="font-semibold text-black">{{ confirmation.firstname }} {{ confirmation.lastname }}</p>
-                <p class="text-xs text-gray-600">{{ confirmation.userEmail }}</p>
-              </div>
-            </div>
+        <tr
+          v-for="confirmation in confirmationList"
+          :key="confirmation.id"
+          class="text-gray-700 align-top"
+        >
+          <td class="px-5 py-3 border">
+            <p class="font-semibold text-black">
+              {{ confirmation.firstname }} {{ confirmation.lastname }}
+            </p>
+            <p class="text-xs text-gray-600">
+              {{ confirmation.userEmail }}
+            </p>
+            <p class="text-xs text-gray-600">
+              {{ confirmation.phone }}
+            </p>
+            <p class="text-xs text-gray-600">
+              {{ confirmation.address }}
+            </p>
           </td>
-          <td class="px-4 py-3 text-ms font-semibold border text-center">{{ confirmation.adult }}</td>
-          <td class="px-4 py-3 text-ms font-semibold border text-center">{{ confirmation.children }}</td>
-          <td class="px-4 py-3 text-xs border">
-            <span
-              :class="confirmation.sunday ? 'text-green-700 bg-green-100' : '' "
-              class="px-2 py-1 font-semibold leading-tight  rounded-sm"> {{ confirmation.sunday ? "présent" : "non"
-              }} </span>
+          <td class="px-8 py-3 text-sm border">
+            <p>
+              Adulte : <span class="font-semibold">{{ confirmation.adult }}</span>
+            </p>
+            <p>
+              Enfant : <span class="font-semibold">{{ confirmation.children }}</span>
+            </p>
+            <p>
+              Dimanche midi :
+              <span
+                :class="
+                  confirmation.sunday ? 'text-green-700 bg-green-100' : ''
+                "
+                class="px-0.5 py-0.5 font-semibold leading-tight rounded-sm"
+              >
+              {{ confirmation.sunday ? "présent" : "non" }}
+              </span>
+            </p>
           </td>
           <td class="px-4 py-3 text-sm border">{{ confirmation.message }}</td>
         </tr>
@@ -61,27 +99,29 @@ export default defineComponent({
       .firestore()
       .collection("confirmation");
 
-    confirmationCollection.get()
-      .then((snapshot) => {
-        const data = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-        confirmationList.value = data;
+    confirmationCollection.get().then((snapshot) => {
+      const data = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      confirmationList.value = data;
 
-        data.forEach(row => {
-          adultCount.value += +row["adult"];
-          childrenCount.value += +row["children"];
-          if (row.sunday === true) {
-            sundayCount.value += +row["adult"] + +row["children"];
-          }
-        });
-
+      data.forEach((row) => {
+        adultCount.value += +row["adult"];
+        childrenCount.value += +row["children"];
+        if (row.sunday === true) {
+          sundayCount.value += +row["adult"] + +row["children"];
+        }
       });
+    });
     totalCount.value = computed(() => adultCount.value + childrenCount.value);
 
     return {
-      totalCount, adultCount, childrenCount, sundayCount, confirmationList
+      totalCount,
+      adultCount,
+      childrenCount,
+      sundayCount,
+      confirmationList
     };
   },
   beforeRouteEnter(to, from, next) {
@@ -91,5 +131,4 @@ export default defineComponent({
     next();
   }
 });
-
 </script>

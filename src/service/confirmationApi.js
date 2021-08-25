@@ -6,6 +6,8 @@ export default {
     user,
     lastname,
     firstname,
+    phone,
+    address,
     adult,
     children,
     message,
@@ -22,6 +24,8 @@ export default {
           if (user.email === data.userEmail) {
             lastname.value = data.lastname;
             firstname.value = data.firstname;
+            phone.value = data.phone;
+            address.value = data.address;
             adult.value = data.adult;
             children.value = data.children;
             message.value = data.message;
@@ -32,7 +36,16 @@ export default {
         });
       });
   },
-  async create(lastname, firstname, adult, children, message, sunday) {
+  async create(
+    lastname,
+    firstname,
+    phone,
+    address,
+    adult,
+    children,
+    message,
+    sunday
+  ) {
     return await firebase
       .firestore()
       .collection("confirmation")
@@ -40,19 +53,31 @@ export default {
         userEmail: firebase.auth().currentUser.email,
         lastname: lastname.value,
         firstname: firstname.value,
+        phone: phone.value,
+        address: address.value,
         adult: adult.value,
         children: children.value,
         message: message.value,
         sunday: sunday.value,
       })
       .then(() => {
-        alert("User successfully created!");
+        alert("Vous avez confirmé votre presence, merci !");
       })
       .catch((error) => {
         console.log(error);
       });
   },
-  async update(id, lastname, firstname, adult, children, message, sunday) {
+  async update(
+    id,
+    lastname,
+    firstname,
+    phone,
+    address,
+    adult,
+    children,
+    message,
+    sunday
+  ) {
     await firebase
       .firestore()
       .collection("confirmation")
@@ -60,13 +85,15 @@ export default {
       .update({
         lastname: lastname.value,
         firstname: firstname.value,
+        phone: phone.value,
+        address: address.value,
         adult: adult.value,
         children: children.value,
         message: message.value,
         sunday: sunday.value,
       })
       .then(() => {
-        alert("La confirmation a été mise à jour!");
+        alert("Votre confirmation a été mise à jour!");
       })
       .catch((error) => {
         console.log(error);

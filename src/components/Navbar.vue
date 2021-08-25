@@ -14,7 +14,12 @@
             <NavLink to="/register" name="Inscription"></NavLink>
             <NavLink to="/sign-in" name="Connection"></NavLink>
           </span>
-          <NavLink v-if="props.isLoggedIn" to="#" @click="signOut" name="Déconnection"></NavLink>
+          <NavLink
+            v-if="props.isLoggedIn"
+            to="#"
+            @click="signOut"
+            name="Déconnection"
+          ></NavLink>
         </div>
         <!-- Mobile menu button -->
         <div class="md:hidden flex items-center">
@@ -47,10 +52,15 @@
         <MobileNavLink to="/" name="Accueil"></MobileNavLink>
         <MobileNavLink to="/confirmation" name="Confirmation"></MobileNavLink>
         <span v-if="!props.isLoggedIn" class="md:space-x-8">
-            <MobileNavLink to="/register" name="Inscription"></MobileNavLink>
-            <MobileNavLink to="/sign-in" name="Connection"></MobileNavLink>
-          </span>
-        <MobileNavLink v-if="props.isLoggedIn" to="#" @click="signOut" name="Déconnection"></MobileNavLink>
+          <MobileNavLink to="/register" name="Inscription"></MobileNavLink>
+          <MobileNavLink to="/sign-in" name="Connection"></MobileNavLink>
+        </span>
+        <MobileNavLink
+          v-if="props.isLoggedIn"
+          to="#"
+          @click="signOut"
+          name="Déconnection"
+        ></MobileNavLink>
       </div>
     </transition>
   </nav>
@@ -64,11 +74,10 @@ export default defineComponent({
   name: "Navbar",
   components: { MobileNavLink, NavLink },
   props: {
-    isLoggedIn: Boolean
+    isLoggedIn: Boolean,
   },
   emits: ["signOut"],
   setup(props, context) {
-
     const menu = ref(false);
 
     function signOut() {
@@ -78,9 +87,8 @@ export default defineComponent({
     return {
       props,
       menu,
-      signOut
+      signOut,
     };
-  }
-
+  },
 });
 </script>

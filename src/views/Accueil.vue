@@ -1,20 +1,26 @@
 <template>
   <div class="">
-    <div class="text-center font-bold mb-10">
-      <p class="text-5xl text-blue-400">Manon <br />&<br />Clement</p>
+    <div class="font-serif text-center font-bold mb-10">
+      <p class="text-5xl text-blue-400 mb-5">Manon <br />&<br />Clement</p>
       <p class="text-xl">30 Octobre 2021</p>
       <p class="text-3xl text-blue-400">J - {{ jour() }}</p>
     </div>
-    <p class="text-xl mb-3">
-      1 / Passage à la Mairie de BEZIERS à 15h30
+    <div class="text-xl mb-3">
+      <p class="font-extrabold font-serif">1 / Mairie de BEZIERS</p>
+      <p class="mb-3 ml-6">15h30 - 16h00</p>
+    </div>
+    <div class="text-xl mb-3">
+      <p class="font-extrabold font-serif">2 / Aperitif dinatoire</p>
+      <p class="mb-3 ml-6">
+        Salle George Campo / Stade de football <br />
+        Rue de la source / D37 <br />
+        34420 Villeneuve-les-Beziers
+      </p>
+      <p class="mb-3 ml-6">A partir de 18h00</p>
+    </div>
+    <p class="text-center font-bold text-2xl text-blue-400">
+      Confirmer votre présence !
     </p>
-    <p class="text-xl">2 / Rendez vous à 17h00</p>
-    <p class="mb-3 ml-5">
-      Salle George Campo / Stade de football <br>
-      Rue de la source / D37 <br>
-      34420 Villeneuve-les-Beziers
-    </p>
-    <p class="text-center font-bold text-2xl text-blue-400">Confirmer votre présence !</p>
   </div>
 </template>
 <script setup>

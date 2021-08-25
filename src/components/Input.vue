@@ -1,24 +1,24 @@
 <template>
   <div class="mb-4">
-    <label class="block text-gray-700 text-sm font-bold mb-2" :for="props.id"
-    >{{ props.label }}</label
-    >
+    <label class="block text-gray-700 text-sm font-bold mb-2" :for="props.id">{{
+      props.label
+    }}</label>
     <input
       :id="props.id"
       :value="modelValue"
       :type="props.type"
       class="
-            shadow
-            appearance-none
-            border
-            rounded
-            w-full
-            py-2
-            px-3
-            text-gray-700
-            leading-tight
-            focus:outline-none focus:shadow-outline
-          "
+        shadow
+        appearance-none
+        border
+        rounded
+        w-full
+        py-2
+        px-3
+        text-gray-700
+        leading-tight
+        focus:outline-none focus:shadow-outline
+      "
       :placeholder="props.placeholder"
       required
       @input="updateValue"
@@ -48,8 +48,8 @@ export default defineComponent({
     return {
       data,
       props,
-      updateValue
+      updateValue,
     };
-  }
+  },
 });
 </script>
