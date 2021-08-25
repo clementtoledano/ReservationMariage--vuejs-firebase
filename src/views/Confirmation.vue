@@ -1,7 +1,7 @@
 <template>
   <div class="lg:w-full">
     <form class="" @submit.prevent="onFormSubmit">
-      <h1 class="text-center mb-4 text-xl">Votre confirmation</h1>
+      <h1 class="text-center mb-4 text-3xl font-cursive font-extrabold">Votre confirmation</h1>
       <Input
         id="lastname"
         v-model="lastname"

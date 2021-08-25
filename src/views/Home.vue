@@ -1,4 +1,5 @@
-<template>
+<template >
+  <div class="">
   <Navbar :is-logged-in="isLoggedIn" @sign-out="signOut" />
   <div class="m-5 grid grid-cols-1 md:grid-cols-2">
     <router-view class="bg-gray-200 p-4 md:rounded-l-2xl"></router-view>
@@ -10,7 +11,7 @@
       />
     </div>
   </div>
-  <Map />
+  <Map /> </div>
 </template>
 
 <script>

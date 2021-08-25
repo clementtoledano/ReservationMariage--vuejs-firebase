@@ -3,7 +3,7 @@
     <div class="flex justify-between">
       <div class="flex space-x-7 mx-auto items-center">
         <!-- Website Logo -->
-        <h1 class="py-4 px-2 font-semibold text-gray-500 text-lg">
+        <h1 class="py-4 px-2 font-serif font-semibold text-gray-500 text-lg">
           MARIAGE DE MANON & CLEMENT
         </h1>
         <!-- Navbar items -->
