@@ -3,7 +3,7 @@
     <button
       class="
         w-full
-        bg-blue-500
+        bg-gold
         hover:bg-blue-700
         text-white
         font-bold

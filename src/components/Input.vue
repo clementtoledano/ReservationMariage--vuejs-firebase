@@ -1,6 +1,6 @@
 <template>
   <div class="mb-4">
-    <label class="block text-gray-700 text-sm font-bold mb-2" :for="props.id">{{
+    <label class="block text-sm font-bold mb-2" :for="props.id">{{
       props.label
     }}</label>
     <input
@@ -8,14 +8,14 @@
       :value="modelValue"
       :type="props.type"
       class="
-        shadow
-        appearance-none
+      shadow-md
         border
+        border-gold
+        appearance-none
         rounded
         w-full
         py-2
         px-3
-        text-gray-700
         leading-tight
         focus:outline-none focus:shadow-outline
       "

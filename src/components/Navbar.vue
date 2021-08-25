@@ -1,10 +1,10 @@
 <template>
-  <nav class="bg-white shadow-lg">
+  <nav class="text-gold shadow-lg py-2">
     <div class="flex justify-between">
       <div class="flex space-x-7 mx-auto items-center">
         <!-- Website Logo -->
-        <h1 class="py-4 px-2 font-serif font-semibold text-gray-500 text-lg">
-          MARIAGE DE MANON & CLEMENT
+        <h1 class="py-4 px-2 font-serif font-semibold text-xl">
+          Mariage de Manon & Clément
         </h1>
         <!-- Navbar items -->
         <div class="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
@@ -25,7 +25,7 @@
         <div class="md:hidden flex items-center">
           <button class="outline-none mobile-menu-button" @click="menu = !menu">
             <svg
-              class="w-6 h-6 text-gray-500 hover:text-green-500"
+              class="w-7 h-7  mx-4"
               fill="none"
               stroke-linecap="round"
               stroke-linejoin="round"

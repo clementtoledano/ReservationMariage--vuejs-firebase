@@ -1,6 +1,6 @@
 <template>
   <router-link
-    class="nav-link font-medium text-gray-500 hover:text-gray-900"
+    class="nav-link font-medium"
     :to="props.to"
     >{{ props.name }}
   </router-link>

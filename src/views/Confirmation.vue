@@ -24,26 +24,26 @@
         placeholder="Numero de telephone"
       ></Input>
       <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="address"
+        <label class="block text-sm font-bold mb-2" for="address"
         >Votre adresse postale</label
         >
         <textarea
           id="message"
           v-model="address"
           class="
-            shadow
-            appearance-none
+            shadow-md
             border
+            border-gold
+            appearance-none
             rounded
             w-full
             py-2
             px-3
-            text-gray-700
             leading-tight
             focus:outline-none focus:shadow-outline
           "
           rows="3"
-        ></textarea>
+        />
       </div>
       <Input
         id="adult"
@@ -68,31 +68,31 @@
           type="checkbox"
           placeholder=""
         />
-        <label class="block text-gray-700 text-sm font-bold" for="sunday"
+        <label class="block text-sm font-bold" for="sunday"
         >Votre présence le dimanche midi</label
         >
       </div>
       <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="message"
+        <label class="block text-sm font-bold mb-2" for="message"
         >Un message pour nous ?</label
         >
         <textarea
           id="message"
           v-model="message"
           class="
-            shadow
-            appearance-none
+            shadow-md
             border
+            border-gold
+            appearance-none
             rounded
             w-full
             py-2
             px-3
-            text-gray-700
             leading-tight
             focus:outline-none focus:shadow-outline
           "
           rows="3"
-        ></textarea>
+        />
       </div>
       <Button v-if="!isPending">Confirmer</Button>
       <DisabledButton v-else>Enregistrement...</DisabledButton>

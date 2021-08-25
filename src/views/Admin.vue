@@ -18,7 +18,7 @@
     <div
       v-for="confirmation in confirmationList"
       :key="confirmation.id"
-      class="text-gray-700 align-top my-4 rounded-lg shadow-lg"
+      class="align-top my-4 rounded-lg shadow-lg"
     >
       <div class="flex">
         <div class="px-5 py-3 border">

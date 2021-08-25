@@ -9,8 +9,8 @@ module.exports = {
     },
     colors: {
       white: "#fff",
-      black: "#000",
-      gold: "#9e865e",
+      black: "#212121",
+      gold: "#daa520",
     },
   },
   variants: {

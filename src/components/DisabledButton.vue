@@ -4,13 +4,14 @@
       disabled
       class="
         w-full
-        bg-gray-500
+        bg-black
         text-white
         font-bold
         py-2
         px-4
         rounded
-        focus:outline-none focus:shadow-outline
+        focus:outline-none
+        focus:shadow-outline
       "
     >
       <slot />
