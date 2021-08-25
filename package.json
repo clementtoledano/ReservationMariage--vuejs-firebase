@@ -10,7 +10,7 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "@tailwindcss/postcss7-compat": "^2.0.2",
+    "@tailwindcss/postcss7-compat": "npm:@tailwindcss/postcss7-compat@^2.0.2",
     "@vue-leaflet/vue-leaflet": "^0.6.1",
     "autoprefixer": "^9",
     "core-js": "^3.6.5",
