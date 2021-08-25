@@ -16,7 +16,7 @@
         Rue de la source / D37 <br />
         34420 Villeneuve-les-Beziers
       </p>
-      <p class="mb-3 ml-6">A partir de 18h00</p>
+      <p class="mb-3 ml-6">A partir de 17h00</p>
     </div>
     <p class="text-center font-bold text-2xl text-blue-400">
       Confirmer votre présence !
