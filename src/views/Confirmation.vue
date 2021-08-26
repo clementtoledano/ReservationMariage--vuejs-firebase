@@ -11,22 +11,21 @@
       <TextInput
         id="firstname"
         v-model="firstname"
-        label="Votre prenom"
+        label="Votre prénom"
         placeholder="prénom"
       ></TextInput>
-      <PhoneInput
+      <NumberInput
         id="phone"
         v-model="phone"
-        type="text"
-        label="Votre telephone"
-        placeholder="Numero de telephone"
-      ></PhoneInput>
+        label="Votre téléphone"
+        placeholder="Numéro de telephone"
+      ></NumberInput>
       <div class="mb-4">
         <label class="block text-sm font-bold mb-2" for="address"
         >Votre adresse postale</label
         >
         <textarea
-          id="message"
+          id="address"
           v-model="address"
           class="
             shadow-md
@@ -107,11 +106,10 @@ import confirmationApi from "../service/confirmationApi";
 import authApi from "../service/authApi";
 import TextInput from "../components/TextInput";
 import NumberInput from "../components/NumberInput";
-import PhoneInput from "../components/PhoneInput";
 
 export default defineComponent({
   name: "Confirmation",
-  components: { PhoneInput, NumberInput, TextInput, DisabledButton, Button },
+  components: { NumberInput, TextInput, DisabledButton, Button },
   setup() {
     const router = useRouter();
     const lastname = ref("");
