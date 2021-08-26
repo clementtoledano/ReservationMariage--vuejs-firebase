@@ -1,4 +1,5 @@
 import firebase from "firebase";
+import { timestamp } from "../main";
 
 export default {
   async getConfirmationId(
@@ -59,6 +60,7 @@ export default {
         children: children.value,
         message: message.value,
         sunday: sunday.value,
+        createdAt: timestamp(),
       })
       .then(() => {
         alert("Vous avez confirmé votre presence, merci !");
@@ -91,6 +93,7 @@ export default {
         children: children.value,
         message: message.value,
         sunday: sunday.value,
+        updateAt: timestamp(),
       })
       .then(() => {
         alert("Votre confirmation a été mise à jour!");

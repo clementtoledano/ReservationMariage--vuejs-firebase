@@ -20,7 +20,7 @@
         focus:outline-none focus:shadow-outline
       "
       :placeholder="props.placeholder"
-      min="0"
+      :min="props.min"
       required
       @input="updateValue"
     />
@@ -33,17 +33,18 @@ import { defineComponent, ref } from "vue";
 export default defineComponent({
   name: "NumberInput",
   props: {
-    modelValue: { type: Number, default: 0 },
+    modelValue: { type: Number, default:null },
     id: { type: String, default: "", required: true },
     label: { type: String, default: "", required: true },
-    placeholder: { type: String, default: "", required: true }
+    placeholder: { type: String, default: "", required: true },
+    min: {type:Number}
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     const data = ref();
 
     function updateValue(event) {
-      emit("update:modelValue", event.target.value);
+      emit("update:modelValue", Number(event.target.value));
     }
 
     return {

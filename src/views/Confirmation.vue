@@ -19,6 +19,7 @@
         v-model="phone"
         label="Votre téléphone"
         placeholder="Numéro de telephone"
+        min="0"
       ></NumberInput>
       <div class="mb-4">
         <label class="block text-sm font-bold mb-2" for="address"
@@ -47,6 +48,7 @@
         v-model="adult"
         label="Nombre d'adulte"
         placeholder="Nombre d'adulte"
+        min="1"
       ></NumberInput>
       <NumberInput
         id="children"
@@ -54,6 +56,7 @@
         type="number"
         label="Nombre d'enfant de moins de 10 ans"
         placeholder="Nombre d'enfant"
+        min="0"
       ></NumberInput>
 
       <div class="mb-4 flex items-center">
@@ -114,7 +117,7 @@ export default defineComponent({
     const router = useRouter();
     const lastname = ref("");
     const firstname = ref("");
-    const phone = ref("");
+    const phone = ref(null);
     const address = ref("");
     const adult = ref(1);
     const children = ref(0);

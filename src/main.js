@@ -21,6 +21,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 const app = createApp(App);
+export const timestamp = firebase.firestore.FieldValue.serverTimestamp;
 
 app.use(router);
 

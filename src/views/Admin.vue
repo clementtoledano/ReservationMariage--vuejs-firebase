@@ -17,7 +17,7 @@
   <div class="w-full mb-8 overflow-hidden ">
     <div
       v-for="confirmation in confirmationList"
-      :key="confirmation.id"
+      :key="confirmation.lastname"
       class="align-top my-4 rounded-lg shadow-lg"
     >
       <div class="flex">
@@ -59,6 +59,7 @@
     </div>
 
   </div>
+
 </template>
 
 <script>
@@ -76,7 +77,7 @@ export default defineComponent({
 
     const confirmationCollection = firebase
       .firestore()
-      .collection("confirmation");
+      .collection("confirmation").orderBy("createdAt", "desc");
 
     confirmationCollection.get().then((snapshot) => {
       const data = snapshot.docs.map((doc) => ({

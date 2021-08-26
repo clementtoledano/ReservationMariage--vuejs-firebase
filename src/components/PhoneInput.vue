@@ -32,7 +32,7 @@ import { defineComponent, ref } from "vue";
 export default defineComponent({
   name: "PhoneInput",
   props: {
-    modelValue: { type: String, default: "" },
+    modelValue: { type: Number },
     id: { type: String, default: "", required: true },
     label: { type: String, default: "", required: true },
     placeholder: { type: String, default: "", required: true }
@@ -42,7 +42,7 @@ export default defineComponent({
     const data = ref();
 
     function updateValue(event) {
-      emit("update:modelValue", event.target.value);
+      emit("update:modelValue", Number(event.target.value));
     }
 
     return {
