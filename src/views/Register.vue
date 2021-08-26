@@ -2,27 +2,22 @@
   <div class="lg:w-full">
     <form class="" @submit.prevent="onFormSubmit">
       <h1 class="text-center mb-4 text-3xl font-cursive font-extrabold">Inscription</h1>
-      <Input
+      <EmailInput
         id="email"
         v-model="email"
-        type="text"
         label="Votre Email"
         placeholder="email"
-      ></Input>
-      <Input
+      ></EmailInput>
+      <PasswordInput
         id="password"
         v-model="password"
-        type="password"
         label="Votre Password"
-        placeholder="*****"
-      ></Input>
-      <Input
+      ></PasswordInput>
+      <PasswordInput
         id="rePassword"
         v-model="rePassword"
-        type="password"
         label="Confirmer le password"
-        placeholder="*****"
-      ></Input>
+      ></PasswordInput>
       <p v-if="errMsg" class="mb-4 text-red-500 text-xs italic">{{ errMsg }}</p>
       <Button v-if="!isPending">Créer le compte</Button>
       <DisabledButton v-else>Creation...</DisabledButton>
@@ -34,13 +29,14 @@
 import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 import Button from "../components/Button";
-import Input from "../components/Input";
 import DisabledButton from "../components/DisabledButton";
 import AuthApi from "../service/authApi";
+import PasswordInput from "../components/PasswordInput";
+import EmailInput from "../components/EmailInput";
 
 export default defineComponent({
   name: "Register",
-  components: { DisabledButton, Button, Input },
+  components: { EmailInput, PasswordInput, DisabledButton, Button },
   setup() {
     const router = useRouter();
     const email = ref("");

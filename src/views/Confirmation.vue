@@ -2,27 +2,25 @@
   <div class="lg:w-full">
     <form class="" @submit.prevent="onFormSubmit">
       <h1 class="text-center mb-4 text-3xl font-cursive font-extrabold">Votre confirmation</h1>
-      <Input
+      <TextInput
         id="lastname"
         v-model="lastname"
-        type="text"
         label="Votre nom"
         placeholder="nom"
-      ></Input>
-      <Input
+      ></TextInput>
+      <TextInput
         id="firstname"
         v-model="firstname"
-        type="text"
         label="Votre prenom"
         placeholder="prénom"
-      ></Input>
-      <Input
+      ></TextInput>
+      <PhoneInput
         id="phone"
         v-model="phone"
         type="text"
         label="Votre telephone"
         placeholder="Numero de telephone"
-      ></Input>
+      ></PhoneInput>
       <div class="mb-4">
         <label class="block text-sm font-bold mb-2" for="address"
         >Votre adresse postale</label
@@ -45,20 +43,19 @@
           rows="3"
         />
       </div>
-      <Input
+      <NumberInput
         id="adult"
         v-model="adult"
-        type="number"
         label="Nombre d'adulte"
         placeholder="Nombre d'adulte"
-      ></Input>
-      <Input
+      ></NumberInput>
+      <NumberInput
         id="children"
         v-model="children"
         type="number"
         label="Nombre d'enfant de moins de 10 ans"
         placeholder="Nombre d'enfant"
-      ></Input>
+      ></NumberInput>
 
       <div class="mb-4 flex items-center">
         <input
@@ -105,14 +102,16 @@
 import { useRouter } from "vue-router";
 import { defineComponent, ref } from "vue";
 import Button from "../components/Button";
-import Input from "../components/Input";
 import DisabledButton from "../components/DisabledButton";
 import confirmationApi from "../service/confirmationApi";
 import authApi from "../service/authApi";
+import TextInput from "../components/TextInput";
+import NumberInput from "../components/NumberInput";
+import PhoneInput from "../components/PhoneInput";
 
 export default defineComponent({
   name: "Confirmation",
-  components: { DisabledButton, Button, Input },
+  components: { PhoneInput, NumberInput, TextInput, DisabledButton, Button },
   setup() {
     const router = useRouter();
     const lastname = ref("");

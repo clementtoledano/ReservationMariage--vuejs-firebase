@@ -2,20 +2,18 @@
   <div class="lg:w-full">
     <form class="" @submit.prevent="onFormSubmit">
       <h1 class="text-center mb-4 text-3xl font-cursive font-extrabold">Connexion</h1>
-      <Input
+      <EmailInput
         id="email"
         v-model="email"
         type="text"
         label="Votre Email"
         placeholder="email"
-      ></Input>
-      <Input
+      ></EmailInput>
+      <PasswordInput
         id="password"
         v-model="password"
-        type="password"
         label="Votre Password"
-        placeholder="*****"
-      ></Input>
+      ></PasswordInput>
 
       <p v-if="errMsg" class="mb-4 text-red-500 text-xs italic">{{ errMsg }}</p>
       <Button v-if="!isPending">Se connecter</Button>
@@ -28,13 +26,14 @@
 import { defineComponent, ref } from "vue";
 import AuthApi from "../service/authApi";
 import { useRouter } from "vue-router";
-import Input from "../components/Input";
 import Button from "../components/Button";
 import DisabledButton from "../components/DisabledButton";
+import PasswordInput from "../components/PasswordInput";
+import EmailInput from "../components/EmailInput";
 
 export default defineComponent({
   name: "SignIn",
-  components: { DisabledButton, Button, Input },
+  components: { EmailInput, PasswordInput, DisabledButton, Button },
   setup() {
     const email = ref("");
     const password = ref("");

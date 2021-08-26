@@ -1,12 +1,12 @@
 <template>
   <div class="mb-4">
     <label class="block text-sm font-bold mb-2" :for="props.id">{{
-      props.label
-    }}</label>
+        props.label
+      }}</label>
     <input
       :id="props.id"
       :value="modelValue"
-      :type="props.type"
+      type="password"
       class="
       shadow-md
         border
@@ -19,7 +19,8 @@
         leading-tight
         focus:outline-none focus:shadow-outline
       "
-      :placeholder="props.placeholder"
+      placeholder="*****"
+      min="6"
       required
       @input="updateValue"
     />
@@ -30,13 +31,11 @@
 import { defineComponent, ref } from "vue";
 
 export default defineComponent({
-  name: "Input",
+  name: "PasswordInput",
   props: {
     modelValue: { type: String, default: "" },
-    type: { type: String, default: "", required: true },
     id: { type: String, default: "", required: true },
     label: { type: String, default: "", required: true },
-    placeholder: { type: String, default: "", required: true },
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
@@ -45,11 +44,12 @@ export default defineComponent({
     function updateValue(event) {
       emit("update:modelValue", event.target.value);
     }
+
     return {
       data,
       props,
-      updateValue,
+      updateValue
     };
-  },
+  }
 });
 </script>
