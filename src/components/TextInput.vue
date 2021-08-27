@@ -19,10 +19,12 @@
         leading-tight
         focus:outline-none focus:shadow-outline
       "
+      :class="props.errorMsg === '' ? '' : 'border-red'"
+      autocomplete="off"
       :placeholder="props.placeholder"
-      required
       @input="updateValue"
     />
+    <small class="text-red">{{ props.errorMsg }}</small>
   </div>
 </template>
 
@@ -33,6 +35,7 @@ export default defineComponent({
   name: "TextInput",
   props: {
     modelValue: { type: String, default: "" },
+    errorMsg : { type: String, default: "" },
     id: { type: String, default: "", required: true },
     label: { type: String, default: "", required: true },
     placeholder: { type: String, default: "", required: true }

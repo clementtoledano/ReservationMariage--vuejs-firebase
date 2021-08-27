@@ -19,11 +19,11 @@
         leading-tight
         focus:outline-none focus:shadow-outline
       "
+      :class="props.errorMsg === '' ? '' : 'border-red'"
       :placeholder="props.placeholder"
-      :min="props.min"
-      required
       @input="updateValue"
     />
+    <small class="text-red">{{ props.errorMsg }}</small>
   </div>
 </template>
 
@@ -34,10 +34,10 @@ export default defineComponent({
   name: "NumberInput",
   props: {
     modelValue: { type: Number, default:null },
+    errorMsg : { type: String, default: "" },
     id: { type: String, default: "", required: true },
     label: { type: String, default: "", required: true },
     placeholder: { type: String, default: "", required: true },
-    min: {type:Number}
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
