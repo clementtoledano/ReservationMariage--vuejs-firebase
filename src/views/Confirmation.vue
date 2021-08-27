@@ -2,13 +2,15 @@
   <div class="lg:w-full">
     <form class="" @submit.prevent="onFormSubmit">
       <h1 class="text-center mb-4 text-3xl font-cursive font-extrabold">Votre confirmation</h1>
+
+
       <TextInput
         id="lastname"
         v-model="state.lastname"
         label="Votre nom"
         placeholder="nom"
         :error-msg="v$?.lastname?.$errors[0]?.$message"
-      ></TextInput>
+      />
 
       <TextInput
         id="firstname"
@@ -16,7 +18,7 @@
         label="Votre prénom"
         placeholder="prénom"
         :error-msg="v$?.firstname?.$errors[0]?.$message"
-      ></TextInput>
+      />
 
       <TextInput
         id="phone"
@@ -24,7 +26,7 @@
         label="Votre téléphone"
         placeholder="Numéro de telephone"
         :error-msg="v$?.phone?.$errors[0]?.$message"
-      ></TextInput>
+      />
 
       <div class="mb-4">
         <label class="block text-sm font-bold mb-2" for="address"
@@ -36,7 +38,6 @@
           class="
             shadow-md
             border
-
             appearance-none
             rounded
             w-full
@@ -50,44 +51,57 @@
           rows="3"
         />
         <small class="text-red">{{ v$?.address?.$errors[0]?.$message }}</small>
-
       </div>
-      <NumberInput
-        id="adult"
-        v-model="state.adult"
-        label="Nombre d'adulte"
-        placeholder="Nombre d'adulte"
-        :error-msg="v$?.adult?.$errors[0]?.$message"
-
-      ></NumberInput>
-      <NumberInput
-        id="children"
-        v-model="state.children"
-        label="Nombre d'enfant de moins de 10 ans"
-        placeholder="Nombre d'enfant"
-        :error-msg="v$?.children?.$errors[0]?.$message"
-      ></NumberInput>
-      <div class="mb-4 flex items-center">
-        <input
-          id="sunday"
-          v-model="state.sunday"
-          class="mr-4"
-          type="checkbox"
-          placeholder=""
-        />
-        <label class="block text-sm font-bold" for="sunday"
-        >Votre présence le dimanche midi</label
-        >
+      <div class="font-cursive text-4xl content-between">
+        <span class="">Serez vous present ?</span>
+        <Toggle v-model="presence" class="m-5"/>
+        <span>{{presence ? 'Oui':'Non'}}</span>
       </div>
 
-      <div class="mb-4">
-        <label class="block text-sm font-bold mb-2" for="message"
-        >Un message pour nous ?</label
-        >
-        <textarea
-          id="message"
-          v-model="state.message"
-          class="
+      <transition
+        enter-active-class="transition-opacity duration-250"
+        enter-from-class="opacity-0"
+        enter-to-class="opacity-100"
+        leave-active-class="transition-opacity duration-250"
+        leave-from-class="opacity-100"
+        leave-to-class="opacity-0"
+      >
+        <div v-show="presence" class="transition-all">
+          <NumberInput
+            id="adult"
+            v-model="state.adult"
+            label="Nombre d'adulte"
+            placeholder="Nombre d'adulte"
+            :error-msg="v$?.adult?.$errors[0]?.$message"
+          />
+          <NumberInput
+            id="children"
+            v-model="state.children"
+            label="Nombre d'enfant de moins de 10 ans"
+            placeholder="Nombre d'enfant"
+            :error-msg="v$?.children?.$errors[0]?.$message"
+          />
+          <div class="mb-4 flex items-center">
+            <input
+              id="sunday"
+              v-model="state.sunday"
+              class="mr-4"
+              type="checkbox"
+              placeholder=""
+            />
+            <label class="block text-sm font-bold" for="sunday"
+            >Votre présence le dimanche midi</label
+            >
+          </div>
+
+          <div class="mb-4">
+            <label class="block text-sm font-bold mb-2" for="message"
+            >Un message pour nous ?</label
+            >
+            <textarea
+              id="message"
+              v-model="state.message"
+              class="
             shadow-md
             border
             border-gold
@@ -99,9 +113,11 @@
             leading-tight
             focus:outline-none focus:shadow-outline
           "
-          rows="3"
-        />
-      </div>
+              rows="3"
+            />
+          </div>
+        </div>
+      </transition>
       <Button v-if="!isPending">Confirmer</Button>
       <DisabledButton v-else>Enregistrement...</DisabledButton>
       <h3>Fin des modifications le 15 octobre</h3>
@@ -112,6 +128,7 @@
 <script>
 import { defineComponent, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
+import Toggle from "@vueform/toggle";
 import useVuelidate from "@vuelidate/core";
 import { helpers, minLength, minValue, numeric, required } from "@vuelidate/validators";
 import Button from "../components/Button";
@@ -123,12 +140,14 @@ import NumberInput from "../components/NumberInput";
 
 export default defineComponent({
   name: "Confirmation",
-  components: { NumberInput, TextInput, DisabledButton, Button },
+  components: { NumberInput, TextInput, DisabledButton, Button, Toggle },
   setup() {
     const router = useRouter();
     const newUser = ref(true);
     const id = ref("");
     const isPending = ref(false);
+    const presence = ref(false);
+
     const state = reactive({
       lastname: "",
       firstname: "",
@@ -144,7 +163,8 @@ export default defineComponent({
         required: helpers.withMessage("Ce champ ne peut pas être vide", required),
         minLength: helpers.withMessage("Le nom doit être minimum de 2 lettres ", minLength(2))
       },
-      firstname: { required: helpers.withMessage("Ce champ ne peut pas être vide", required),
+      firstname: {
+        required: helpers.withMessage("Ce champ ne peut pas être vide", required),
         minLength: helpers.withMessage("Le prénom doit être minimum de 2 lettres ", minLength(2))
       },
       phone: {
@@ -174,9 +194,6 @@ export default defineComponent({
       children: ""
     });
 
-    function eeeee(errors) {
-      console.log(errors);
-    }
 
     const v$ = useVuelidate(rules, state, { $lazy: true });
 
@@ -196,9 +213,12 @@ export default defineComponent({
 
     const onFormSubmit = () => {
       v$.value.$validate();
-      eeeee(v$.value.$errors);
       if (v$.value.$invalid) return;
-
+      if(!presence.value) {
+          state.adult= 0;
+          state.children= 0;
+          state.sunday= false;
+      }
       isPending.value = true;
       setTimeout(function() {
         if (newUser.value) {
@@ -226,18 +246,12 @@ export default defineComponent({
       id,
       onFormSubmit,
       isPending,
-      errors
+      errors,
+      presence
     };
   }
 });
 
-export const phone = {
-  $validator: value => {
-    if (typeof value === "undefined" || value === null || value === "") {
-      return true;
-    }
-    return /^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$/.test(value);
-  },
-  $message: "Must be a valid phone number."
-};
 </script>
+
+<style src="@vueform/toggle/themes/default.css"></style>
