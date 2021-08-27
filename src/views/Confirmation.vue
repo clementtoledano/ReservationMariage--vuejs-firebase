@@ -93,15 +93,16 @@
             >Votre présence le dimanche midi</label
             >
           </div>
-
-          <div class="mb-4">
-            <label class="block text-sm font-bold mb-2" for="message"
-            >Un message pour nous ?</label
-            >
-            <textarea
-              id="message"
-              v-model="state.message"
-              class="
+        </div>
+      </transition>
+      <div class="mb-4">
+        <label class="block text-sm font-bold mb-2" for="message"
+        >Un message pour nous ?</label
+        >
+        <textarea
+          id="message"
+          v-model="state.message"
+          class="
             shadow-md
             border
             border-gold
@@ -113,11 +114,9 @@
             leading-tight
             focus:outline-none focus:shadow-outline
           "
-              rows="3"
-            />
-          </div>
-        </div>
-      </transition>
+          rows="3"
+        />
+      </div>
       <Button v-if="!isPending">Confirmer</Button>
       <DisabledButton v-else>Enregistrement...</DisabledButton>
       <h3>Fin des modifications le 15 octobre</h3>
