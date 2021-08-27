@@ -36,7 +36,7 @@
           class="
             shadow-md
             border
-            border-gold
+
             appearance-none
             rounded
             w-full
@@ -45,7 +45,8 @@
             leading-tight
             focus:outline-none focus:shadow-outline
           "
-          :class="v$?.address?.$errors[0]?.$message === '' ? '' : 'border-red'"
+          :class="v$?.address?.$errors[0] ? 'border-red' : 'border-gold'"
+
           rows="3"
         />
         <small class="text-red">{{ v$?.address?.$errors[0]?.$message }}</small>

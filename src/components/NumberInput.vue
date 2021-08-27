@@ -10,7 +10,6 @@
       class="
       shadow-md
         border
-        border-gold
         appearance-none
         rounded
         w-full
@@ -19,7 +18,7 @@
         leading-tight
         focus:outline-none focus:shadow-outline
       "
-      :class="props.errorMsg === '' ? '' : 'border-red'"
+      :class="props.errorMsg ?  'border-red' : 'border-gold'"
       :placeholder="props.placeholder"
       @input="updateValue"
     />
