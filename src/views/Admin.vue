@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-100 grid grid-cols-2 sm:grid-cols-4 text-center shadow-lg">
+  <div class="bg-gray-100 grid grid-cols-3 sm:grid-cols-3 text-center shadow-lg">
     <div class="m-2 p-5 border-2 border-gray-400 font-bold">
       TOTAL<br />{{ totalCount }}
     </div>
@@ -9,9 +9,6 @@
     <div class="m-2 p-5 border-2 border-gray-400 font-bold">
       ENFANTS<br />{{ childrenCount }}
     </div>
-    <div class="m-2 p-5 border-2 border-gray-400 font-bold">
-      DIMANCHE<br />{{ sundayCount }}
-    </div>
   </div>
 
   <div class="w-full mb-8 overflow-hidden ">
@@ -20,7 +17,7 @@
       :key="confirmation.lastname"
       class="align-top my-4 rounded-lg shadow-lg"
     >
-      <div class="flex">
+      <div class="grid grid-cols-2">
         <div class="px-5 py-3 border">
           <p class="font-semibold text-black">
             {{ confirmation.firstname }} {{ confirmation.lastname }}
@@ -42,17 +39,6 @@
           <p>
             Enfant : <span class="font-semibold">{{ confirmation.children }}</span>
           </p>
-          <p>
-            Dimanche midi :
-            <span
-              :class="
-                  confirmation.sunday ? 'text-green-700 bg-green-100' : ''
-                "
-              class="px-0.5 py-0.5 font-semibold leading-tight rounded-sm"
-            >
-              {{ confirmation.sunday ? "présent" : "non" }}
-              </span>
-          </p>
         </div>
       </div>
       <div class="px-4 py-3 text-sm border">{{ confirmation.message }}</div>
@@ -72,7 +58,6 @@ export default defineComponent({
     const totalCount = ref(0);
     const adultCount = ref(0);
     const childrenCount = ref(0);
-    const sundayCount = ref(0);
     const confirmationList = ref([]);
 
     const confirmationCollection = firebase
@@ -89,9 +74,6 @@ export default defineComponent({
       data.forEach((row) => {
         adultCount.value += +row["adult"];
         childrenCount.value += +row["children"];
-        if (row.sunday === true) {
-          sundayCount.value += +row["adult"] + +row["children"];
-        }
       });
     });
     totalCount.value = computed(() => adultCount.value + childrenCount.value);
@@ -100,7 +82,6 @@ export default defineComponent({
       totalCount,
       adultCount,
       childrenCount,
-      sundayCount,
       confirmationList
     };
   },

@@ -81,7 +81,7 @@
               <option>6</option>
               <option>7</option>
               <option>8</option>
-              <option>3</option>
+              <option>9</option>
             </select>
             adulte et enfant de plus de 10 ans et
           </div>
@@ -97,7 +97,7 @@
               <option>6</option>
               <option>7</option>
               <option>8</option>
-              <option>3</option>
+              <option>9</option>
             </select>
             enfants de moins de 10 ans
           </div>
