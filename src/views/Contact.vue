@@ -8,7 +8,7 @@
     </div>
     <div class="font-serif text-center font-bold mb-3">
       <p class="text-xl">manonsoler90@gmail.com</p>
-      <p class="text-xl">0651532351</p>
+      <p class="text-xl">0672558482</p>
     </div>
     <div class="font-serif text-center font-bold mb-3">
       <p class="text-xl">clement.toledano@gmail.com</p>
