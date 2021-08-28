@@ -52,7 +52,7 @@
         <small class="text-red">{{ v$?.address?.$errors[0]?.$message }}</small>
       </div>
       <div class="font-cursive text-4xl text-center">
-        <span class="">Serez vous present le samedi soir ?</span>
+        <span class="">Serez vous présent ?</span>
         <Toggle v-model="presence" class="m-5" />
         <span :class=" presence ? 'border-2 border-gold text-gold' : 'border-2 border-red text-red'"
               class="mx-auto px-2 m-1">{{ presence ? "Oui" : "Non" }}</span>
@@ -83,7 +83,7 @@
               <option>8</option>
               <option>9</option>
             </select>
-            adulte et enfant de plus de 10 ans et
+            adulte(s) et enfant(s) de plus de 10 ans et
           </div>
           <div class="mb-4 block font-bold mb-2">
             <select class="border-2 text-gold m-2 p-2 font-bold" v-model="state.children">
@@ -99,7 +99,7 @@
               <option>8</option>
               <option>9</option>
             </select>
-            enfants de moins de 10 ans
+            enfant(s) de moins de 10 ans
           </div>
         </div>
       </transition>

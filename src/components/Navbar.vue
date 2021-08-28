@@ -20,6 +20,8 @@
             @click="signOut"
             name="Déconnection"
           ></NavLink>
+          <NavLink to="/contact" name="Contact"></NavLink>
+
         </div>
         <!-- Mobile menu button -->
         <div class="md:hidden flex items-center">
@@ -61,6 +63,7 @@
           @click="signOut"
           name="Déconnection"
         ></MobileNavLink>
+        <MobileNavLink to="/contact" name="Contact"></MobileNavLink>
       </div>
     </transition>
   </nav>
