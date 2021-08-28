@@ -1,6 +1,6 @@
 <template>
   <div class="m-5 border-gray-400">
-    <l-map :zoom="zoom" :center="center" style="height: 500px; width: 100%">
+    <l-map :zoom="zoom" max-zoom="18" :center="center" style="height: 500px; width: 100%">
       <l-tile-layer :url="url" :attribution="attribution" />
       <l-marker :lat-lng="marker">
         <l-tooltip :options="{ permanent: true, interactive: true }"

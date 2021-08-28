@@ -24,6 +24,9 @@
       @input="updateValue"
     />
     <small class="text-red">{{ props.errorMsg }}</small>
+    <div class="input-errors" v-for="(error, index) of props.errorMsg" :key="index">
+      <div class="error-msg">{{ error.$message }}</div>
+    </div>
   </div>
 </template>
 

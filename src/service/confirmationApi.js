@@ -17,7 +17,6 @@ export default {
             state.adult = data.adult;
             state.children = data.children;
             state.message = data.message;
-            state.sunday = data.sunday;
             newUser.value = false;
             id.value = change.doc.id;
           }
@@ -31,7 +30,6 @@ export default {
     address,
     adult,
     children,
-    sunday,
     message,
   }) {
     return await firebase
@@ -45,7 +43,6 @@ export default {
         address: address,
         adult: adult,
         children: children,
-        sunday: sunday,
         message: message,
         createdAt: timestamp(),
       })
@@ -58,7 +55,7 @@ export default {
   },
   async update(
     id,
-    { lastname, firstname, phone, address, adult, children, message, sunday }
+    { lastname, firstname, phone, address, adult, children, message }
   ) {
     await firebase
       .firestore()
@@ -71,7 +68,6 @@ export default {
         address: address,
         adult: adult,
         children: children,
-        sunday: sunday,
         message: message,
         updateAt: timestamp(),
       })

@@ -47,15 +47,15 @@
             focus:outline-none focus:shadow-outline
           "
           :class="v$?.address?.$errors[0] ? 'border-red' : 'border-gold'"
-
           rows="3"
         />
         <small class="text-red">{{ v$?.address?.$errors[0]?.$message }}</small>
       </div>
-      <div class="font-cursive text-4xl content-between">
-        <span class="">Serez vous present ?</span>
-        <Toggle v-model="presence" class="m-5"/>
-        <span>{{presence ? 'Oui':'Non'}}</span>
+      <div class="font-cursive text-4xl text-center">
+        <span class="">Serez vous present le samedi soir ?</span>
+        <Toggle v-model="presence" class="m-5" />
+        <span :class=" presence ? 'border-2 border-gold text-gold' : 'border-2 border-red text-red'"
+              class="mx-auto px-2 m-1">{{ presence ? "Oui" : "Non" }}</span>
       </div>
 
       <transition
@@ -67,31 +67,39 @@
         leave-to-class="opacity-0"
       >
         <div v-show="presence" class="transition-all">
-          <NumberInput
-            id="adult"
-            v-model="state.adult"
-            label="Nombre d'adulte"
-            placeholder="Nombre d'adulte"
-            :error-msg="v$?.adult?.$errors[0]?.$message"
-          />
-          <NumberInput
-            id="children"
-            v-model="state.children"
-            label="Nombre d'enfant de moins de 10 ans"
-            placeholder="Nombre d'enfant"
-            :error-msg="v$?.children?.$errors[0]?.$message"
-          />
-          <div class="mb-4 flex items-center">
-            <input
-              id="sunday"
-              v-model="state.sunday"
-              class="mr-4"
-              type="checkbox"
-              placeholder=""
-            />
-            <label class="block text-sm font-bold" for="sunday"
-            >Votre présence le dimanche midi</label
-            >
+
+          <div class="mb-4 block font-bold mb-2">
+            Vous serez
+            <select class="border-2 text-gold m-2 p-2 font-bold" v-model="state.adult">
+              <option disabled value="">Adulte</option>
+              <option>0</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>3</option>
+            </select>
+            adulte et enfant de plus de 10 ans et
+          </div>
+          <div class="mb-4 block font-bold mb-2">
+            <select class="border-2 text-gold m-2 p-2 font-bold" v-model="state.children">
+              <option disabled value="">Adulte</option>
+              <option>0</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>3</option>
+            </select>
+            enfants de moins de 10 ans
           </div>
         </div>
       </transition>
@@ -114,8 +122,10 @@
             leading-tight
             focus:outline-none focus:shadow-outline
           "
-          rows="3"
+          :class="v$?.message?.$errors[0] ? 'border-red' : 'border-gold'"
+          rows="6"
         />
+        <small class="text-red">{{ v$?.message?.$errors[0]?.$message }}</small>
       </div>
       <Button v-if="!isPending">Confirmer</Button>
       <DisabledButton v-else>Enregistrement...</DisabledButton>
@@ -129,7 +139,7 @@ import { defineComponent, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import Toggle from "@vueform/toggle";
 import useVuelidate from "@vuelidate/core";
-import { helpers, minLength, minValue, numeric, required } from "@vuelidate/validators";
+import { helpers, maxLength, minLength, numeric, required } from "@vuelidate/validators";
 import Button from "../components/Button";
 import DisabledButton from "../components/DisabledButton";
 import confirmationApi from "../service/confirmationApi";
@@ -145,15 +155,15 @@ export default defineComponent({
     const newUser = ref(true);
     const id = ref("");
     const isPending = ref(false);
-    const presence = ref(false);
+    const presence = ref(true);
 
     const state = reactive({
       lastname: "",
       firstname: "",
       phone: "",
       address: "",
-      adult: 1,
-      children: 0,
+      adult: "1",
+      children: "0",
       sunday: false,
       message: ""
     });
@@ -171,17 +181,12 @@ export default defineComponent({
         numeric: helpers.withMessage("Le numéro n'est pas valide", numeric),
         minLength: helpers.withMessage("Le numéro doit contenir 10 chiffres ", minLength(10))
       },
-      address: { required: helpers.withMessage("Le champ adresse ne peut pas être vide", required) },
-      adult: {
-        minValue: helpers.withMessage("Le chiffre ne peut être négatif", minValue(0)),
-        numeric: helpers.withMessage("Le nombre n'est pas valide", numeric)
+      address: {
+        required: helpers.withMessage("L'adresse ne peut pas être vide", required),
+        maxLength: helpers.withMessage("maximum 100 caractères chiffres ", maxLength(100))
       },
-      children: {
-        minValue: helpers.withMessage("Le chiffre ne peut être négatif", minValue(0)),
-        numeric: helpers.withMessage("Le nombre n'est pas valide", numeric)
+      message: { maxLength: helpers.withMessage("maximum 400 caractères chiffres ", maxLength(400))
       },
-      sunday: {},
-      message: {}
     };
 
     const errors = reactive({
@@ -207,17 +212,26 @@ export default defineComponent({
         user,
         state,
         newUser
-      );
+      ).then(() => {
+
+        (state.adult === "0") ? presence.value = false : presence.value = true;
+      });
     }
 
     const onFormSubmit = () => {
       v$.value.$validate();
-      if (v$.value.$invalid) return;
-      if(!presence.value) {
-          state.adult= 0;
-          state.children= 0;
-          state.sunday= false;
+      if (!presence.value) {
+        state.adult = "0";
+        state.children = "0";
+        state.sunday = false;
       }
+      (state.adult === "0") ? presence.value = false : presence.value = true;
+      console.log(presence.value);
+
+      if (v$.value.$invalid) return;
+
+      console.log(state);
+
       isPending.value = true;
       setTimeout(function() {
         if (newUser.value) {
@@ -249,7 +263,8 @@ export default defineComponent({
       presence
     };
   }
-});
+})
+;
 
 </script>
 

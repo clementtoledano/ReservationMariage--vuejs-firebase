@@ -11,7 +11,7 @@ module.exports = {
       white: "#fff",
       black: "#212121",
       gold: "#daa520",
-      red: "#e04444",
+      red: "#e77070",
     },
   },
   variants: {
