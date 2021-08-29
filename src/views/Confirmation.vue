@@ -51,11 +51,11 @@
         />
         <small class="text-red">{{ v$?.address?.$errors[0]?.$message }}</small>
       </div>
-      <div class="font-cursive text-4xl text-center">
-        <span class="">Serez vous présent ?</span>
+      <div class="text-3xl text-center font-cursive pb-4">
+        <p class="">Serez vous présent ?</p>
         <Toggle v-model="presence" class="m-5" />
-        <span :class=" presence ? 'border-2 border-gold text-gold' : 'border-2 border-red text-red'"
-              class="mx-auto px-2 m-1">{{ presence ? "Oui" : "Non" }}</span>
+        <p :class=" presence ? 'border-2 border-gold text-gold' : 'border-2 border-red text-red'"
+              class="mx-auto px-2 m-1">{{ presence ? "Oui, vous serez là" : "Non, vous ne le serez pas" }}</p>
       </div>
 
       <transition
@@ -66,11 +66,13 @@
         leave-from-class="opacity-100"
         leave-to-class="opacity-0"
       >
-        <div v-show="presence" class="transition-all">
+        <div v-show="presence" class="transition-all mb-5">
 
           <div class="mb-4 block font-bold mb-2">
-            Vous serez
-            <select class="border-2 text-gold m-2 p-2 font-bold" v-model="state.adult">
+            Vous serez :
+          </div>
+          <div class="mb-4 block font-bold mb-2">
+            <select class="border-2 text-gold w-14 h-8 mr-2 font-bold" v-model="state.adult">
               <option disabled value="">Adulte</option>
               <option>0</option>
               <option>1</option>
@@ -83,10 +85,10 @@
               <option>8</option>
               <option>9</option>
             </select>
-            adulte(s) et enfant(s) de plus de 10 ans et
+            adulte(s) et enfant(s) de plus de 10 ans
           </div>
           <div class="mb-4 block font-bold mb-2">
-            <select class="border-2 text-gold m-2 p-2 font-bold" v-model="state.children">
+            <select class="border-2 text-gold w-14 h-8 mr-2 p-1 font-bold" v-model="state.children">
               <option disabled value="">Adulte</option>
               <option>0</option>
               <option>1</option>
@@ -103,8 +105,8 @@
           </div>
         </div>
       </transition>
-      <div class="mb-4">
-        <label class="block text-sm font-bold mb-2" for="message"
+      <div class="my-4">
+        <label class="block font-bold mb-2" for="message"
         >Un message pour nous ?</label
         >
         <textarea

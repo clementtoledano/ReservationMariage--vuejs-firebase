@@ -9,18 +9,18 @@
         <!-- Navbar items -->
         <div class="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
           <NavLink to="/" name="Accueil"></NavLink>
-          <NavLink to="/confirmation" name="Confirmation"></NavLink>
+          <NavLink to="/confirmation" name="Confirmer"></NavLink>
           <span v-if="!props.isLoggedIn" class="md:space-x-8">
-            <NavLink to="/register" name="Inscription"></NavLink>
-            <NavLink to="/sign-in" name="Connection"></NavLink>
+            <NavLink to="/register" name="S'inscrire"></NavLink>
+            <NavLink to="/sign-in" name="Se connecter"></NavLink>
           </span>
           <NavLink
             v-if="props.isLoggedIn"
             to="#"
             @click="signOut"
-            name="Déconnection"
+            name="Se déconnecter"
           ></NavLink>
-          <NavLink to="/contact" name="Contact"></NavLink>
+          <NavLink to="/contact" name="Nous contacter"></NavLink>
 
         </div>
         <!-- Mobile menu button -->
@@ -52,16 +52,16 @@
     >
       <div v-show="menu" class="p-2 transition-all transform md:hidden">
         <MobileNavLink to="/" name="Accueil"></MobileNavLink>
-        <MobileNavLink to="/confirmation" name="Confirmation"></MobileNavLink>
+        <MobileNavLink to="/confirmation" name="Confirmer"></MobileNavLink>
         <span v-if="!props.isLoggedIn" class="md:space-x-8">
-          <MobileNavLink to="/register" name="Inscription"></MobileNavLink>
-          <MobileNavLink to="/sign-in" name="Connection"></MobileNavLink>
+          <MobileNavLink to="/register" name="S'inscrire"></MobileNavLink>
+          <MobileNavLink to="/sign-in" name="Se connecter"></MobileNavLink>
         </span>
         <MobileNavLink
           v-if="props.isLoggedIn"
           to="#"
           @click="signOut"
-          name="Déconnection"
+          name="Se déconnecter"
         ></MobileNavLink>
         <MobileNavLink to="/contact" name="Contact"></MobileNavLink>
       </div>
