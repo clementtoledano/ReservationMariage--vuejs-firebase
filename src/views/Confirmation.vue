@@ -141,7 +141,7 @@ import { defineComponent, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import Toggle from "@vueform/toggle";
 import useVuelidate from "@vuelidate/core";
-import { between, helpers, maxLength, minLength, numeric, required } from "@vuelidate/validators";
+import { helpers, maxLength, minLength, numeric, required } from "@vuelidate/validators";
 import Button from "../components/Button";
 import DisabledButton from "../components/DisabledButton";
 import confirmationApi from "../service/confirmationApi";
@@ -172,20 +172,25 @@ export default defineComponent({
     const rules = {
       lastname: {
         required: helpers.withMessage("Ce champ ne peut pas être vide", required),
-        between: helpers.withMessage("Le nom doit faire entre 2 et 15 caractères", between(2,15))
+        minLength: helpers.withMessage("Le nom doit être minimum de 2 lettres", minLength(2)),
+        maxLength: helpers.withMessage("Le nom doit être maximum de 15 lettres", maxLength(15))
       },
       firstname: {
         required: helpers.withMessage("Ce champ ne peut pas être vide", required),
-        between: helpers.withMessage("Le prénom doit faire entre 2 et 15 caractères", between(2,15))
+        minLength: helpers.withMessage("Le prénom doit être minimum de 2 lettres ", minLength(2)),
+        maxLength: helpers.withMessage("Le prénom doit être maximum de 15 lettres", maxLength(15))
+
       },
       phone: {
         required: helpers.withMessage("Ce champ ne peut pas être vide", required),
         numeric: helpers.withMessage("Le numéro n'est pas valide", numeric),
-        minLength: helpers.withMessage("Le numéro doit contenir 10 chiffres ", minLength(10))
+        minLength: helpers.withMessage("Le numéro doit contenir 10 chiffres ", minLength(10)),
+        maxLength: helpers.withMessage("Le numéro doit être maximum de 10 lettres", maxLength(10))
       },
       address: {
         required: helpers.withMessage("L'adresse ne peut pas être vide", required),
-        between: helpers.withMessage("L'adresse doit faire entre 20 et 100 caractères", between(20,100))
+        minLength: helpers.withMessage("Minimum 10 caractères", minLength(10)),
+        maxLength: helpers.withMessage("maximum 100 caractères", maxLength(100))
       },
       message: { maxLength: helpers.withMessage("maximum 400 caractères chiffres ", maxLength(400))
       },
