@@ -141,7 +141,7 @@ import { defineComponent, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import Toggle from "@vueform/toggle";
 import useVuelidate from "@vuelidate/core";
-import { helpers, maxLength, minLength, numeric, required } from "@vuelidate/validators";
+import { between, helpers, maxLength, minLength, numeric, required } from "@vuelidate/validators";
 import Button from "../components/Button";
 import DisabledButton from "../components/DisabledButton";
 import confirmationApi from "../service/confirmationApi";
@@ -172,11 +172,11 @@ export default defineComponent({
     const rules = {
       lastname: {
         required: helpers.withMessage("Ce champ ne peut pas être vide", required),
-        minLength: helpers.withMessage("Le nom doit être minimum de 2 lettres ", minLength(2))
+        between: helpers.withMessage("Le nom doit faire entre 2 et 15 caractères", between(2,15))
       },
       firstname: {
         required: helpers.withMessage("Ce champ ne peut pas être vide", required),
-        minLength: helpers.withMessage("Le prénom doit être minimum de 2 lettres ", minLength(2))
+        between: helpers.withMessage("Le prénom doit faire entre 2 et 15 caractères", between(2,15))
       },
       phone: {
         required: helpers.withMessage("Ce champ ne peut pas être vide", required),
@@ -185,7 +185,7 @@ export default defineComponent({
       },
       address: {
         required: helpers.withMessage("L'adresse ne peut pas être vide", required),
-        maxLength: helpers.withMessage("maximum 100 caractères chiffres ", maxLength(100))
+        between: helpers.withMessage("L'adresse doit faire entre 20 et 100 caractères", between(20,100))
       },
       message: { maxLength: helpers.withMessage("maximum 400 caractères chiffres ", maxLength(400))
       },
