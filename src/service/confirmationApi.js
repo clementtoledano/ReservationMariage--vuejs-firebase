@@ -2,12 +2,25 @@ import firebase from "firebase";
 import { timestamp } from "../main";
 
 export default {
+  async getAllConfirmation() {
+    const getCollection = await firebase
+      .firestore()
+      .collection("confirmation")
+      .orderBy("createdAt", "desc");
+
+    return await getCollection.get().then((snapshot) => {
+      return snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+    });
+  },
   async getConfirmationId(id, user, state, newUser) {
-    firebase
+    await firebase
       .firestore()
       .collection("confirmation")
       .onSnapshot(function (snapshot) {
-        snapshot.docChanges().forEach(function (change) {
+        return snapshot.docChanges().forEach(function (change) {
           const data = change.doc.data();
           if (user.email === data.userEmail) {
             state.lastname = data.lastname;
@@ -32,50 +45,31 @@ export default {
     children,
     message,
   }) {
-    return await firebase
-      .firestore()
-      .collection("confirmation")
-      .add({
-        userEmail: firebase.auth().currentUser.email,
-        lastname: lastname,
-        firstname: firstname,
-        phone: phone,
-        address: address,
-        adult: adult,
-        children: children,
-        message: message,
-        createdAt: timestamp(),
-      })
-      .then(() => {
-        alert("Vous avez confirmé votre presence, merci !");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    return await firebase.firestore().collection("confirmation").add({
+      userEmail: firebase.auth().currentUser.email,
+      lastname: lastname,
+      firstname: firstname,
+      phone: phone,
+      address: address,
+      adult: adult,
+      children: children,
+      message: message,
+      createdAt: timestamp(),
+    });
   },
   async update(
     id,
     { lastname, firstname, phone, address, adult, children, message }
   ) {
-    await firebase
-      .firestore()
-      .collection("confirmation")
-      .doc(id.value)
-      .update({
-        lastname: lastname,
-        firstname: firstname,
-        phone: phone,
-        address: address,
-        adult: adult,
-        children: children,
-        message: message,
-        updateAt: timestamp(),
-      })
-      .then(() => {
-        alert("Votre confirmation a été mise à jour!");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    await firebase.firestore().collection("confirmation").doc(id.value).update({
+      lastname: lastname,
+      firstname: firstname,
+      phone: phone,
+      address: address,
+      adult: adult,
+      children: children,
+      message: message,
+      updateAt: timestamp(),
+    });
   },
 };

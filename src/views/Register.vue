@@ -51,10 +51,28 @@ export default defineComponent({
         errMsg.value = "La vérification du password n'est pas correcte";
       } else {
         isPending.value = true;
-        setTimeout(function () {
-          AuthApi.register(email, password, errMsg).then(
-            () => (isPending.value = false)
-          );
+        setTimeout(function() {
+          AuthApi.register(email, password)
+            .then(() => {
+              router.push("/confirmation");
+            })
+            .catch((error) => {
+              isPending.value = false;
+              switch (error.code) {
+                case "auth/invalid-email":
+                  errMsg.value = "Email invalide";
+                  break;
+                case "auth/weak-password":
+                  errMsg.value = "le password doit faire au moins 6 caractères";
+                  break;
+                case "auth/email-already-in-use":
+                  errMsg.value = "l'email est déjà utilisé";
+                  break;
+                default:
+                  errMsg.value = "Email ou password incorrect";
+                  break;
+              }
+            });
         }, 2000);
       }
     };
@@ -62,11 +80,10 @@ export default defineComponent({
       email,
       password,
       rePassword,
-      router,
       onFormSubmit,
       errMsg,
-      isPending,
+      isPending
     };
-  },
+  }
 });
 </script>

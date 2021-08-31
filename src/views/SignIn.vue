@@ -44,10 +44,28 @@ export default defineComponent({
     const onFormSubmit = () => {
       errMsg.value = "";
       isPending.value = true;
-      setTimeout(function () {
-        AuthApi.signIn(email, password, errMsg).then(
-          () => (isPending.value = false)
-        );
+      setTimeout(function() {
+        AuthApi.signIn(email, password, errMsg)
+          .then(() => {
+            router.push("/confirmation");
+          })
+          .catch((error) => {
+            isPending.value = false;
+            switch (error.code) {
+              case "auth/invalid-email":
+                errMsg.value = "Email invalide";
+                break;
+              case "auth/user-not-found":
+                errMsg.value = "Le compte n'éxiste pas avec cet email";
+                break;
+              case "auth/wrong-password":
+                errMsg.value = "Password incorrect";
+                break;
+              default:
+                errMsg.value = "Email ou password incorrect";
+                break;
+            }
+                });
       }, 2000);
     };
     return {
@@ -56,8 +74,8 @@ export default defineComponent({
       errMsg,
       router,
       onFormSubmit,
-      isPending,
+      isPending
     };
-  },
+  }
 });
 </script>

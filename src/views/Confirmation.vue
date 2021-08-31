@@ -55,7 +55,7 @@
         <p class="">Serez vous présent ?</p>
         <Toggle v-model="presence" class="m-5" />
         <p :class=" presence ? 'border-2 border-gold text-gold' : 'border-2 border-red text-red'"
-              class="mx-auto px-2 m-1">{{ presence ? "Oui, vous serez là" : "Non, vous ne le serez pas" }}</p>
+           class="mx-auto px-2 m-1">{{ presence ? "Oui, vous serez là" : "Non, vous ne le serez pas" }}</p>
       </div>
 
       <transition
@@ -192,8 +192,9 @@ export default defineComponent({
         minLength: helpers.withMessage("Minimum 10 caractères", minLength(10)),
         maxLength: helpers.withMessage("maximum 100 caractères", maxLength(100))
       },
-      message: { maxLength: helpers.withMessage("maximum 400 caractères chiffres ", maxLength(400))
-      },
+      message: {
+        maxLength: helpers.withMessage("maximum 400 caractères chiffres ", maxLength(400))
+      }
     };
 
     const errors = reactive({
@@ -246,14 +247,26 @@ export default defineComponent({
             .create(
               state
             )
-            .then(() => (isPending.value = false));
+            .then(() => {
+              isPending.value = false;
+              alert("Vous avez confirmé votre presence, merci !");
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         } else {
           confirmationApi
             .update(
               id,
               state
             )
-            .then(() => (isPending.value = false));
+            .then(() => {
+              isPending.value = false;
+              alert("Votre confirmation a été mise à jour!");
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         }
       }, 2000);
     };

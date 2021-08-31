@@ -50,7 +50,7 @@
 
 <script>
 import { computed, defineComponent, ref } from "vue";
-import firebase from "firebase";
+import confirmationApi from "../service/confirmationApi";
 
 export default defineComponent({
   name: "Admin",
@@ -60,23 +60,15 @@ export default defineComponent({
     const childrenCount = ref(0);
     const confirmationList = ref([]);
 
-    const confirmationCollection = firebase
-      .firestore()
-      .collection("confirmation").orderBy("createdAt", "desc");
-
-    confirmationCollection.get().then((snapshot) => {
-      const data = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data()
-      }));
+    confirmationApi.getAllConfirmation().then(data => {
       confirmationList.value = data;
-
-      data.forEach((row) => {
-        adultCount.value += +row["adult"];
-        childrenCount.value += +row["children"];
+      data.forEach(userConfirmation => {
+        adultCount.value += Number(userConfirmation["adult"]);
+        childrenCount.value += Number(userConfirmation["children"]);
       });
     });
-    totalCount.value = computed(() => adultCount.value + childrenCount.value);
+
+    totalCount.value = computed(() => Number(adultCount.value) + Number(childrenCount.value));
 
     return {
       totalCount,
@@ -86,7 +78,8 @@ export default defineComponent({
     };
   },
   beforeRouteEnter(to, from, next) {
-    if (prompt("password", "aze") !== "aze") {
+    // Seulement pour un petit site entre amis ;)
+    if (prompt("password") !== "azeqsdaze") {
       next("/");
     }
     next();
