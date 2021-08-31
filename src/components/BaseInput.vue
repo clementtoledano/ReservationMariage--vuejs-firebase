@@ -6,11 +6,10 @@
     <input
       :id="props.id"
       :value="modelValue"
-      type="number"
+      type="text"
       class="
       shadow-md
         border
-        border-gold
         appearance-none
         rounded
         w-full
@@ -19,10 +18,15 @@
         leading-tight
         focus:outline-none focus:shadow-outline
       "
+      :class="props.errorMsg ?  'border-red' : 'border-gold'"
+      autocomplete="off"
       :placeholder="props.placeholder"
-      required
       @input="updateValue"
     />
+    <small class="text-red">{{ props.errorMsg }}</small>
+    <div class="input-errors" v-for="(error, index) of props.errorMsg" :key="index">
+      <div class="error-msg">{{ error.$message }}</div>
+    </div>
   </div>
 </template>
 
@@ -30,9 +34,10 @@
 import { defineComponent, ref } from "vue";
 
 export default defineComponent({
-  name: "PhoneInput",
+  name: "TextInput",
   props: {
-    modelValue: { type: Number },
+    modelValue: { type: String, default: "" },
+    errorMsg: { type: String, default: "" },
     id: { type: String, default: "", required: true },
     label: { type: String, default: "", required: true },
     placeholder: { type: String, default: "", required: true }
@@ -42,7 +47,7 @@ export default defineComponent({
     const data = ref();
 
     function updateValue(event) {
-      emit("update:modelValue", Number(event.target.value));
+      emit("update:modelValue", event.target.value);
     }
 
     return {

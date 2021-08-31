@@ -3,8 +3,7 @@
     <form class="" @submit.prevent="onFormSubmit">
       <h1 class="text-center mb-4 text-3xl font-cursive font-extrabold">Votre confirmation</h1>
 
-
-      <TextInput
+      <BaseInput
         id="lastname"
         v-model="state.lastname"
         label="Votre nom"
@@ -12,7 +11,7 @@
         :error-msg="v$?.lastname?.$errors[0]?.$message"
       />
 
-      <TextInput
+      <BaseInput
         id="firstname"
         v-model="state.firstname"
         label="Votre prénom"
@@ -20,7 +19,7 @@
         :error-msg="v$?.firstname?.$errors[0]?.$message"
       />
 
-      <TextInput
+      <BaseInput
         id="phone"
         v-model="state.phone"
         label="Votre téléphone"
@@ -68,41 +67,18 @@
       >
         <div v-show="presence" class="transition-all mb-5">
 
-          <div class="mb-4 block font-bold mb-2">
+          <span class="block font-bold mb-2">
             Vous serez :
-          </div>
-          <div class="mb-4 block font-bold mb-2">
-            <select class="border-2 text-gold w-14 h-8 mr-2 font-bold" v-model="state.adult">
-              <option disabled value="">Adulte</option>
-              <option>0</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-              <option>9</option>
-            </select>
-            adulte(s) et enfant(s) de plus de 10 ans
-          </div>
-          <div class="mb-4 block font-bold mb-2">
-            <select class="border-2 text-gold w-14 h-8 mr-2 p-1 font-bold" v-model="state.children">
-              <option disabled value="">Adulte</option>
-              <option>0</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-              <option>9</option>
-            </select>
-            enfant(s) de moins de 10 ans
-          </div>
+          </span>
+          <SelectInput id="adult" v-model="state.adult" label="adult" />
+          <span class="block  mb-2">
+          adulte(s) et enfant(s) de plus de 10 ans
+          </span>
+          <SelectInput id="children" v-model="state.children" label="children" />
+          <span class="block  mb-2">
+
+          enfant(s) de moins de 10 ans
+          </span>
         </div>
       </transition>
       <div class="my-4">
@@ -146,12 +122,12 @@ import Button from "../components/Button";
 import DisabledButton from "../components/DisabledButton";
 import confirmationApi from "../service/confirmationApi";
 import authApi from "../service/authApi";
-import TextInput from "../components/TextInput";
-import NumberInput from "../components/NumberInput";
+import BaseInput from "../components/BaseInput";
+import SelectInput from "../components/SelectInput";
 
 export default defineComponent({
   name: "Confirmation",
-  components: { NumberInput, TextInput, DisabledButton, Button, Toggle },
+  components: { SelectInput, BaseInput, DisabledButton, Button, Toggle },
   setup() {
     const router = useRouter();
     const newUser = ref(true);
@@ -179,7 +155,6 @@ export default defineComponent({
         required: helpers.withMessage("Ce champ ne peut pas être vide", required),
         minLength: helpers.withMessage("Le prénom doit être minimum de 2 lettres ", minLength(2)),
         maxLength: helpers.withMessage("Le prénom doit être maximum de 15 lettres", maxLength(15))
-
       },
       phone: {
         required: helpers.withMessage("Ce champ ne peut pas être vide", required),
@@ -234,11 +209,8 @@ export default defineComponent({
         state.sunday = false;
       }
       (state.adult === "0") ? presence.value = false : presence.value = true;
-      console.log(presence.value);
 
       if (v$.value.$invalid) return;
-
-      console.log(state);
 
       isPending.value = true;
       setTimeout(function() {

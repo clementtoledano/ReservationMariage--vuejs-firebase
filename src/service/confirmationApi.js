@@ -16,7 +16,7 @@ export default {
     });
   },
   async getConfirmationId(id, user, state, newUser) {
-    await firebase
+    return firebase
       .firestore()
       .collection("confirmation")
       .onSnapshot(function (snapshot) {
