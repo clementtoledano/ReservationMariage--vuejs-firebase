@@ -31,7 +31,7 @@
 
       <div class="mb-4">
         <label class="block text-sm font-bold mb-2" for="address"
-        >Votre adresse postale</label
+          >Votre adresse postale</label
         >
         <textarea
           id="address"
@@ -52,16 +52,18 @@
         />
         <small class="text-red">{{ v$?.address?.$errors[0]?.$message }}</small>
       </div>
-      <div class="text-3xl text-center font-cursive pb-4">
-        <p class="">Serez vous présent ?</p>
-        <Toggle v-model="presence" class="m-5" />
+      <div class="text-center">
+        <div class="flex justify-center text-3xl font-cursive pb-4">
+          <span class="mr-4">Serez vous présent ?</span>
+          <Toggle :presence="presence" @isToggle="setPresence" />
+        </div>
         <p
           :class="
             presence
               ? 'border-2 border-gold text-gold'
               : 'border-2 border-red text-red'
           "
-          class="mx-auto px-2 m-1"
+          class="text-3xl font-cursive p-2 mx-auto"
         >
           {{ presence ? "Oui, vous serez là" : "Non, vous ne le serez pas" }}
         </p>
@@ -95,7 +97,7 @@
       </transition>
       <div class="my-4">
         <label class="block font-bold mb-2" for="message"
-        >Un message pour nous ?</label
+          >Un message pour nous ?</label
         >
         <textarea
           id="message"
@@ -127,7 +129,6 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
-import Toggle from "@vueform/toggle";
 import useVuelidate from "@vuelidate/core";
 import {
   helpers,
@@ -143,10 +144,17 @@ import BaseInput from "@/components/BaseInput.vue";
 import SelectInput from "@/components/SelectInput.vue";
 import Confirmation from "@/types/Confirmation";
 import firebase from "firebase";
+import Toggle from "@/components/Toggle.vue";
 
 export default defineComponent({
   name: "Confirmation",
-  components: { SelectInput, BaseInput, DisabledButton, Button, Toggle },
+  components: {
+    Toggle,
+    SelectInput,
+    BaseInput,
+    DisabledButton,
+    Button,
+  },
   setup() {
     const router = useRouter();
     const newUser = ref(true);
@@ -238,23 +246,26 @@ export default defineComponent({
 
     const v$ = useVuelidate(rules, state, { $lazy: true });
 
+    // check if visitor is logged
     if (!localStorage.userEmail) {
       alert("Vous devez vous connecter pour accéder à cette page");
       router.push("/");
     } else {
-      const datata = firebase
+      //if is logged
+      const userConfirmation = firebase
         .firestore()
         .collection("confirmation")
         .where("userEmail", "==", localStorage.userEmail)
         .get();
 
-      datata.then((snapshot) => {
+      userConfirmation.then((snapshot) => {
+        // if one confirmation check with his mail address
         if (snapshot.docs.length !== 0) {
           snapshot.forEach((doc) => {
             newUser.value = false;
 
             const data = doc.data();
-
+            // hydrate form from db
             state.lastname = data.lastname;
             state.firstname = data.firstname;
             state.phone = data.phone;
@@ -309,6 +320,11 @@ export default defineComponent({
       }, 2000);
     };
 
+    //presence toggle
+    function setPresence(payload: boolean) {
+      presence.value = payload;
+    }
+
     return {
       v$,
       state,
@@ -319,9 +335,8 @@ export default defineComponent({
       isPending,
       errors,
       presence,
+      setPresence,
     };
   },
 });
 </script>
-
-<style src="@vueform/toggle/themes/default.css"></style>

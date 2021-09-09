@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "SelectInput",
@@ -30,13 +30,8 @@ export default defineComponent({
     id: { type: String, required: true },
   },
   emits: ["update:modelValue"],
-  setup(props) {
-    const data = ref();
-
-    return {
-      data,
-      props
-    };
+  setup() {
+    return {};
   },
 });
 </script>
