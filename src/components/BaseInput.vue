@@ -18,43 +18,42 @@
         leading-tight
         focus:outline-none focus:shadow-outline
       "
-      :class="props.errorMsg ?  'border-red' : 'border-gold'"
+      :class="props.errorMsg ? 'border-red' : 'border-gold'"
       autocomplete="off"
       :placeholder="props.placeholder"
-      @input="updateValue"
+      @input="$emit('update:modelValue', $event.target.value)"
     />
     <small class="text-red">{{ props.errorMsg }}</small>
-    <div class="input-errors" v-for="(error, index) of props.errorMsg" :key="index">
+    <div
+      class="input-errors"
+      v-for="(error, index) of props.errorMsg"
+      :key="index"
+    >
       <div class="error-msg">{{ error.$message }}</div>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref } from "vue";
 
 export default defineComponent({
-  name: "TextInput",
+  name: "BaseInput",
   props: {
-    modelValue: { type: String, default: "" },
+    modelValue: { type: [String, Number], default: "" },
     errorMsg: { type: String, default: "" },
     id: { type: String, default: "", required: true },
     label: { type: String, default: "", required: true },
-    placeholder: { type: String, default: "", required: true }
+    placeholder: { type: [String, Number], default: "", required: true },
   },
   emits: ["update:modelValue"],
-  setup(props, { emit }) {
+  setup(props) {
     const data = ref();
-
-    function updateValue(event) {
-      emit("update:modelValue", event.target.value);
-    }
 
     return {
       data,
       props,
-      updateValue
     };
-  }
+  },
 });
 </script>

@@ -1,6 +1,10 @@
 <template>
   <div class="mb-2 block font-bold">
-    <select class="border-2 text-gold w-14 h-8 mr-2 font-bold" :value="modelValue"  @input="updateValue">
+    <select
+      class="border-2 text-gold w-14 h-8 mr-2 font-bold"
+      :value="modelValue"
+      @input="$emit('update:modelValue', Number($event.target.value))"
+    >
       <option disabled value="">Adulte</option>
       <option>0</option>
       <option>1</option>
@@ -16,28 +20,23 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref } from "vue";
 
 export default defineComponent({
   name: "SelectInput",
   props: {
-    modelValue: { type: String, default: "" },
-    id: { type: String, default: "", required: true },
+    modelValue: { type: Number },
+    id: { type: String, required: true },
   },
   emits: ["update:modelValue"],
-  setup(props, { emit }) {
+  setup(props) {
     const data = ref();
-
-    function updateValue(event) {
-      emit("update:modelValue", event.target.value);
-    }
 
     return {
       data,
-      props,
-      updateValue
+      props
     };
-  }
+  },
 });
 </script>

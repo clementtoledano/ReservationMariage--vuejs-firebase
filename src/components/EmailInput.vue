@@ -21,12 +21,12 @@
       "
       :placeholder="props.placeholder"
       required
-      @input="updateValue"
+      @input="$emit('update:modelValue', $event.target.value)"
     />
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref } from "vue";
 
 export default defineComponent({
@@ -35,21 +35,16 @@ export default defineComponent({
     modelValue: { type: String, default: "" },
     id: { type: String, default: "", required: true },
     label: { type: String, default: "", required: true },
-    placeholder: { type: String, default: "", required: true }
+    placeholder: { type: String, default: "", required: true },
   },
   emits: ["update:modelValue"],
-  setup(props, { emit }) {
+  setup(props) {
     const data = ref();
-
-    function updateValue(event) {
-      emit("update:modelValue", event.target.value);
-    }
 
     return {
       data,
       props,
-      updateValue
     };
-  }
+  },
 });
 </script>

@@ -1,7 +1,9 @@
 <template>
   <div class="lg:w-full">
     <form class="" @submit.prevent="onFormSubmit">
-      <h1 class="text-center mb-4 text-3xl font-cursive font-extrabold">Votre confirmation</h1>
+      <h1 class="text-center mb-4 text-3xl font-cursive font-extrabold">
+        Votre confirmation
+      </h1>
 
       <BaseInput
         id="lastname"
@@ -53,8 +55,16 @@
       <div class="text-3xl text-center font-cursive pb-4">
         <p class="">Serez vous présent ?</p>
         <Toggle v-model="presence" class="m-5" />
-        <p :class=" presence ? 'border-2 border-gold text-gold' : 'border-2 border-red text-red'"
-           class="mx-auto px-2 m-1">{{ presence ? "Oui, vous serez là" : "Non, vous ne le serez pas" }}</p>
+        <p
+          :class="
+            presence
+              ? 'border-2 border-gold text-gold'
+              : 'border-2 border-red text-red'
+          "
+          class="mx-auto px-2 m-1"
+        >
+          {{ presence ? "Oui, vous serez là" : "Non, vous ne le serez pas" }}
+        </p>
       </div>
 
       <transition
@@ -66,18 +76,20 @@
         leave-to-class="opacity-0"
       >
         <div v-show="presence" class="transition-all mb-5">
-
           <span class="block font-bold mb-2">
             Vous serez :
           </span>
           <SelectInput id="adult" v-model="state.adult" label="adult" />
           <span class="block  mb-2">
-          adulte(s) et enfant(s) de plus de 10 ans
+            adulte(s) et enfant(s) de plus de 10 ans
           </span>
-          <SelectInput id="children" v-model="state.children" label="children" />
+          <SelectInput
+            id="children"
+            v-model="state.children"
+            label="children"
+          />
           <span class="block  mb-2">
-
-          enfant(s) de moins de 10 ans
+            enfant(s) de moins de 10 ans
           </span>
         </div>
       </transition>
@@ -112,18 +124,25 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import Toggle from "@vueform/toggle";
 import useVuelidate from "@vuelidate/core";
-import { helpers, maxLength, minLength, numeric, required } from "@vuelidate/validators";
-import Button from "../components/Button";
-import DisabledButton from "../components/DisabledButton";
-import confirmationApi from "../service/confirmationApi";
-import authApi from "../service/authApi";
-import BaseInput from "../components/BaseInput";
-import SelectInput from "../components/SelectInput";
+import {
+  helpers,
+  maxLength,
+  minLength,
+  numeric,
+  required,
+} from "@vuelidate/validators";
+import Button from "@/components/Button.vue";
+import DisabledButton from "@/components/DisabledButton.vue";
+import confirmationApi from "@/services/confirmationApi";
+import BaseInput from "@/components/BaseInput.vue";
+import SelectInput from "@/components/SelectInput.vue";
+import Confirmation from "@/types/Confirmation";
+import firebase from "firebase";
 
 export default defineComponent({
   name: "Confirmation",
@@ -131,45 +150,81 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const newUser = ref(true);
-    const id = ref("");
+    const id = ref();
     const isPending = ref(false);
     const presence = ref(true);
 
-    const state = reactive({
+    const state = reactive<Confirmation>({
       lastname: "",
       firstname: "",
-      phone: "",
+      phone: 0,
       address: "",
-      adult: "1",
-      children: "0",
-      sunday: false,
-      message: ""
+      adult: 1,
+      children: 0,
+      message: "",
     });
+
     const rules = {
       lastname: {
-        required: helpers.withMessage("Ce champ ne peut pas être vide", required),
-        minLength: helpers.withMessage("Le nom doit être minimum de 2 lettres", minLength(2)),
-        maxLength: helpers.withMessage("Le nom doit être maximum de 15 lettres", maxLength(15))
+        required: helpers.withMessage(
+          "Ce champ ne peut pas être vide",
+          required
+        ),
+        minLength: helpers.withMessage(
+          "Le nom doit être minimum de 2 lettres",
+          minLength(2)
+        ),
+        maxLength: helpers.withMessage(
+          "Le nom doit être maximum de 15 lettres",
+          maxLength(15)
+        ),
       },
       firstname: {
-        required: helpers.withMessage("Ce champ ne peut pas être vide", required),
-        minLength: helpers.withMessage("Le prénom doit être minimum de 2 lettres ", minLength(2)),
-        maxLength: helpers.withMessage("Le prénom doit être maximum de 15 lettres", maxLength(15))
+        required: helpers.withMessage(
+          "Ce champ ne peut pas être vide",
+          required
+        ),
+        minLength: helpers.withMessage(
+          "Le prénom doit être minimum de 2 lettres ",
+          minLength(2)
+        ),
+        maxLength: helpers.withMessage(
+          "Le prénom doit être maximum de 15 lettres",
+          maxLength(15)
+        ),
       },
       phone: {
-        required: helpers.withMessage("Ce champ ne peut pas être vide", required),
+        required: helpers.withMessage(
+          "Ce champ ne peut pas être vide",
+          required
+        ),
         numeric: helpers.withMessage("Le numéro n'est pas valide", numeric),
-        minLength: helpers.withMessage("Le numéro doit contenir 10 chiffres ", minLength(10)),
-        maxLength: helpers.withMessage("Le numéro doit être maximum de 10 lettres", maxLength(10))
+        minLength: helpers.withMessage(
+          "Le numéro doit contenir 10 chiffres ",
+          minLength(10)
+        ),
+        maxLength: helpers.withMessage(
+          "Le numéro doit être maximum de 10 lettres",
+          maxLength(10)
+        ),
       },
       address: {
-        required: helpers.withMessage("L'adresse ne peut pas être vide", required),
+        required: helpers.withMessage(
+          "L'adresse ne peut pas être vide",
+          required
+        ),
         minLength: helpers.withMessage("Minimum 10 caractères", minLength(10)),
-        maxLength: helpers.withMessage("maximum 100 caractères", maxLength(100))
+        maxLength: helpers.withMessage(
+          "maximum 100 caractères",
+          maxLength(100)
+        ),
       },
       message: {
-        maxLength: helpers.withMessage("maximum 400 caractères chiffres ", maxLength(400))
-      }
+        maxLength: helpers.withMessage(
+          "maximum 400 caractères chiffres ",
+          maxLength(400)
+        ),
+      },
     };
 
     const errors = reactive({
@@ -178,47 +233,61 @@ export default defineComponent({
       phone: "",
       address: "",
       adult: "",
-      children: ""
+      children: "",
     });
-
 
     const v$ = useVuelidate(rules, state, { $lazy: true });
 
-    const user = authApi.currentUser();
-
-    if (!user) {
+    if (!localStorage.userEmail) {
       alert("Vous devez vous connecter pour accéder à cette page");
       router.push("/");
     } else {
-      confirmationApi.getConfirmationId(
-        id,
-        user,
-        state,
-        newUser
-      ).then(() => {
+      const datata = firebase
+        .firestore()
+        .collection("confirmation")
+        .where("userEmail", "==", localStorage.userEmail)
+        .get();
 
-        (state.adult === "0") ? presence.value = false : presence.value = true;
+      datata.then((snapshot) => {
+        if (snapshot.docs.length !== 0) {
+          snapshot.forEach((doc) => {
+            newUser.value = false;
+
+            const data = doc.data();
+
+            state.lastname = data.lastname;
+            state.firstname = data.firstname;
+            state.phone = data.phone;
+            state.address = data.address;
+            state.adult = data.adult;
+            state.children = data.children;
+            state.message = data.message;
+
+            id.value = doc.id;
+            state.adult === 0
+              ? (presence.value = false)
+              : (presence.value = true);
+          });
+        }
       });
     }
 
     const onFormSubmit = () => {
       v$.value.$validate();
       if (!presence.value) {
-        state.adult = "0";
-        state.children = "0";
-        state.sunday = false;
+        state.adult = 0;
+        state.children = 0;
+        presence.value = false;
       }
-      (state.adult === "0") ? presence.value = false : presence.value = true;
 
       if (v$.value.$invalid) return;
 
       isPending.value = true;
+
       setTimeout(function() {
         if (newUser.value) {
           confirmationApi
-            .create(
-              state
-            )
+            .create(state)
             .then(() => {
               isPending.value = false;
               alert("Vous avez confirmé votre presence, merci !");
@@ -228,10 +297,7 @@ export default defineComponent({
             });
         } else {
           confirmationApi
-            .update(
-              id,
-              state
-            )
+            .update(id.value, state)
             .then(() => {
               isPending.value = false;
               alert("Votre confirmation a été mise à jour!");
@@ -252,12 +318,10 @@ export default defineComponent({
       onFormSubmit,
       isPending,
       errors,
-      presence
+      presence,
     };
-  }
-})
-;
-
+  },
+});
 </script>
 
 <style src="@vueform/toggle/themes/default.css"></style>

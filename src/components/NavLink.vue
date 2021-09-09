@@ -2,10 +2,11 @@
   <router-link
     class="nav-link font-medium"
     :to="props.to"
-    >{{ props.name }}
+  >{{ props.name }}
   </router-link>
 </template>
-<script>
+
+<script lang="ts">
 import { defineComponent } from "vue";
 
 export default defineComponent({

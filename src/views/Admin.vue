@@ -1,5 +1,7 @@
 <template>
-  <div class="bg-gray-100 grid grid-cols-3 sm:grid-cols-3 text-center shadow-lg">
+  <div
+    class="bg-gray-100 grid grid-cols-3 sm:grid-cols-3 text-center shadow-lg"
+  >
     <div class="m-2 p-5 border-2 border-gray-400 font-bold">
       TOTAL<br />{{ totalCount }}
     </div>
@@ -37,44 +39,46 @@
             Adulte : <span class="font-semibold">{{ confirmation.adult }}</span>
           </p>
           <p>
-            Enfant : <span class="font-semibold">{{ confirmation.children }}</span>
+            Enfant :
+            <span class="font-semibold">{{ confirmation.children }}</span>
           </p>
         </div>
       </div>
       <div class="px-4 py-3 text-sm border">{{ confirmation.message }}</div>
     </div>
-
   </div>
-
 </template>
 
-<script>
+<script lang="ts">
 import { computed, defineComponent, ref } from "vue";
-import confirmationApi from "../service/confirmationApi";
+import confirmationApi from "@/services/confirmationApi";
 
 export default defineComponent({
   name: "Admin",
   setup() {
-    const totalCount = ref(0);
+    const confirmationList = ref();
     const adultCount = ref(0);
     const childrenCount = ref(0);
-    const confirmationList = ref([]);
+    const totalCount = ref();
 
-    confirmationApi.getAllConfirmation().then(data => {
+    confirmationApi.getAllConfirmationForAdmin().then((data) => {
       confirmationList.value = data;
-      data.forEach(userConfirmation => {
-        adultCount.value += Number(userConfirmation["adult"]);
-        childrenCount.value += Number(userConfirmation["children"]);
+      data.forEach(({adult, children}) => {
+        adultCount.value += Number(adult);
+
+        childrenCount.value += Number(children);
+
+        totalCount.value = computed(
+          () => adultCount.value + childrenCount.value
+        );
       });
     });
-
-    totalCount.value = computed(() => Number(adultCount.value) + Number(childrenCount.value));
 
     return {
       totalCount,
       adultCount,
       childrenCount,
-      confirmationList
+      confirmationList,
     };
   },
   beforeRouteEnter(to, from, next) {
@@ -83,6 +87,7 @@ export default defineComponent({
       next("/");
     }
     next();
-  }
+  },
 });
+
 </script>

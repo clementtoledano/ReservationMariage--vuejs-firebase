@@ -22,12 +22,12 @@
       placeholder="*****"
       min="6"
       required
-      @input="updateValue"
+      @input="$emit('update:modelValue', $event.target.value)"
     />
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref } from "vue";
 
 export default defineComponent({
@@ -38,18 +38,13 @@ export default defineComponent({
     label: { type: String, default: "", required: true },
   },
   emits: ["update:modelValue"],
-  setup(props, { emit }) {
+  setup(props) {
     const data = ref();
-
-    function updateValue(event) {
-      emit("update:modelValue", event.target.value);
-    }
 
     return {
       data,
       props,
-      updateValue
     };
-  }
+  },
 });
 </script>

@@ -1,7 +1,7 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-import firebase from "firebase";
+import firebase from "firebase/app";
 
 import "tailwindcss/tailwind.css";
 import "./assets/tailwind.css";
@@ -20,9 +20,4 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-const app = createApp(App);
-export const timestamp = firebase.firestore.FieldValue.serverTimestamp;
-
-app.use(router);
-
-app.mount("#app");
+createApp(App).use(router).mount("#app");

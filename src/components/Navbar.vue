@@ -68,10 +68,11 @@
     </transition>
   </nav>
 </template>
-<script>
+
+<script lang="ts">
 import { defineComponent, ref } from "vue";
-import NavLink from "./NavLink";
-import MobileNavLink from "./MobileNavLink";
+import NavLink from "@/components/NavLink.vue";
+import MobileNavLink from "@/components/MobileNavLink.vue";
 
 export default defineComponent({
   name: "Navbar",

@@ -25,14 +25,14 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
-import Button from "../components/Button";
-import DisabledButton from "../components/DisabledButton";
-import AuthApi from "../service/authApi";
-import PasswordInput from "../components/PasswordInput";
-import EmailInput from "../components/EmailInput";
+import Button from "@/components/Button.vue";
+import DisabledButton from "../components/DisabledButton.vue";
+import AuthApi from "@/services/authApi";
+import PasswordInput from "@/components/PasswordInput.vue";
+import EmailInput from "@/components/EmailInput.vue";
 
 export default defineComponent({
   name: "Register",
@@ -52,7 +52,7 @@ export default defineComponent({
       } else {
         isPending.value = true;
         setTimeout(function() {
-          AuthApi.register(email, password)
+          AuthApi.register(email.value, password.value)
             .then(() => {
               router.push("/confirmation");
             })

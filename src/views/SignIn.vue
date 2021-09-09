@@ -22,14 +22,14 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref } from "vue";
-import AuthApi from "../service/authApi";
 import { useRouter } from "vue-router";
-import Button from "../components/Button";
-import DisabledButton from "../components/DisabledButton";
-import PasswordInput from "../components/PasswordInput";
-import EmailInput from "../components/EmailInput";
+import AuthApi from "@/services/authApi";
+import Button from "@/components/Button.vue";
+import DisabledButton from "@/components/DisabledButton.vue";
+import PasswordInput from "@/components/PasswordInput.vue";
+import EmailInput from "@/components/EmailInput.vue";
 
 export default defineComponent({
   name: "SignIn",
@@ -45,7 +45,7 @@ export default defineComponent({
       errMsg.value = "";
       isPending.value = true;
       setTimeout(function() {
-        AuthApi.signIn(email, password, errMsg)
+        AuthApi.signIn(email.value, password.value)
           .then(() => {
             router.push("/confirmation");
           })
@@ -65,7 +65,7 @@ export default defineComponent({
                 errMsg.value = "Email ou password incorrect";
                 break;
             }
-                });
+          });
       }, 2000);
     };
     return {

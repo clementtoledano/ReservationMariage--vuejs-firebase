@@ -11,10 +11,11 @@
       hover:text-gray-900 hover:bg-gray-50
     "
     :to="props.to"
-    >{{ props.name }}
+  >{{ props.name }}
   </router-link>
 </template>
-<script>
+
+<script lang="ts">
 import { defineComponent } from "vue";
 
 export default defineComponent({
