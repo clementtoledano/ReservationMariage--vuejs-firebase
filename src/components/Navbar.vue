@@ -9,7 +9,7 @@
         <!-- Navbar items -->
         <div class="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
           <NavLink to="/" name="Accueil"></NavLink>
-          <NavLink v-if="props.isLoggedIn" to="/confirmation" name="Confirmer"></NavLink>
+          <NavLink to="/confirmation" name="Confirmer"></NavLink>
           <span v-if="!props.isLoggedIn" class="md:space-x-8">
             <NavLink to="/register" name="S'inscrire"></NavLink>
             <NavLink to="/sign-in" name="Se connecter"></NavLink>

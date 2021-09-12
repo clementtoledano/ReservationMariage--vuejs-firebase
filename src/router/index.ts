@@ -1,3 +1,4 @@
+import { nextTick } from "vue-demi";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
@@ -28,6 +29,14 @@ const routes: Array<RouteRecordRaw> = [
         path: "/confirmation",
         name: "Confirmation",
         component: () => import("../views/Confirmation.vue"),
+        beforeEnter: () => {
+          if (localStorage.userEmail === "undefined") {
+            alert(
+              "il faut vous connecter pour pouvoir confirmer votre présence"
+            );
+            router.replace('/')
+          }
+        },
       },
       {
         path: "/contact",
