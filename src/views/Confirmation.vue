@@ -302,6 +302,7 @@ export default defineComponent({
             .then(() => {
               isPending.value = false;
               alert("Vous avez confirmé votre presence, merci !");
+              router.replace('/')
             })
             .catch((error) => {
               console.log(error);
