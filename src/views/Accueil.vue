@@ -32,7 +32,7 @@ function jour() {
   const sec = (Number(date2) - Number(date1)) / 1000;
   const n = 24 * 3600;
   if (sec > 0) {
-    return Math.floor(sec / n);
+    return Math.floor(sec / n)+1;
   }
 }
 </script>
