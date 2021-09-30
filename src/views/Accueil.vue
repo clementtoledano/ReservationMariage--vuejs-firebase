@@ -29,7 +29,7 @@
 function jour() {
   const date1: number = Date.now();
   const date2: Date = new Date("Oct 31 00:00:01 2021");
-  const sec = (Number(date2) - Number(date1)) / 1000;
+  const sec = (Number(date2) - date1) / 1000;
   const n = 24 * 3600;
   if (sec > 0) {
     return Math.floor(sec / n) + 1;
