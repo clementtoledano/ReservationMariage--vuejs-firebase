@@ -31,7 +31,7 @@
 
       <div class="mb-4">
         <label class="block text-sm font-bold mb-2" for="address"
-          >Votre adresse postale</label
+        >Votre adresse postale</label
         >
         <textarea
           id="address"
@@ -97,7 +97,7 @@
       </transition>
       <div class="my-4">
         <label class="block font-bold mb-2" for="message"
-          >Un message pour nous ?</label
+        >Un message pour nous ?</label
         >
         <textarea
           id="message"
@@ -135,7 +135,7 @@ import {
   maxLength,
   minLength,
   numeric,
-  required,
+  required
 } from "@vuelidate/validators";
 import Button from "@/components/Button.vue";
 import DisabledButton from "@/components/DisabledButton.vue";
@@ -153,7 +153,7 @@ export default defineComponent({
     SelectInput,
     BaseInput,
     DisabledButton,
-    Button,
+    Button
   },
   setup() {
     const router = useRouter();
@@ -169,7 +169,7 @@ export default defineComponent({
       address: "",
       adult: 1,
       children: 0,
-      message: "",
+      message: ""
     });
 
     const rules = {
@@ -185,7 +185,7 @@ export default defineComponent({
         maxLength: helpers.withMessage(
           "Le nom doit être maximum de 15 lettres",
           maxLength(15)
-        ),
+        )
       },
       firstname: {
         required: helpers.withMessage(
@@ -199,7 +199,7 @@ export default defineComponent({
         maxLength: helpers.withMessage(
           "Le prénom doit être maximum de 15 lettres",
           maxLength(15)
-        ),
+        )
       },
       phone: {
         required: helpers.withMessage(
@@ -214,7 +214,7 @@ export default defineComponent({
         maxLength: helpers.withMessage(
           "Le numéro doit être maximum de 10 lettres",
           maxLength(10)
-        ),
+        )
       },
       address: {
         required: helpers.withMessage(
@@ -225,14 +225,14 @@ export default defineComponent({
         maxLength: helpers.withMessage(
           "maximum 100 caractères",
           maxLength(100)
-        ),
+        )
       },
       message: {
         maxLength: helpers.withMessage(
           "maximum 400 caractères chiffres ",
           maxLength(400)
-        ),
-      },
+        )
+      }
     };
 
     const errors = reactive({
@@ -241,7 +241,7 @@ export default defineComponent({
       phone: "",
       address: "",
       adult: "",
-      children: "",
+      children: ""
     });
 
     const v$ = useVuelidate(rules, state, { $lazy: true });
@@ -250,38 +250,39 @@ export default defineComponent({
     if (!localStorage.userEmail) {
       alert("Vous devez vous connecter pour accéder à cette page");
       router.push("/");
-    } else {
-      //if is logged
-      const userConfirmation = firebase
-        .firestore()
-        .collection("confirmation")
-        .where("userEmail", "==", localStorage.userEmail)
-        .get();
-
-      userConfirmation.then((snapshot) => {
-        // if one confirmation check with his mail address
-        if (snapshot.docs.length !== 0) {
-          snapshot.forEach((doc) => {
-            newUser.value = false;
-
-            const data = doc.data();
-            // hydrate form from db
-            state.lastname = data.lastname;
-            state.firstname = data.firstname;
-            state.phone = data.phone;
-            state.address = data.address;
-            state.adult = data.adult;
-            state.children = data.children;
-            state.message = data.message;
-
-            id.value = doc.id;
-            state.adult === 0
-              ? (presence.value = false)
-              : (presence.value = true);
-          });
-        }
-      });
     }
+
+    //if is logged
+    const userConfirmation = firebase
+      .firestore()
+      .collection("confirmation")
+      .where("userEmail", "==", localStorage.userEmail)
+      .get();
+
+    userConfirmation.then((snapshot) => {
+      // if one confirmation check with his mail address
+      if (snapshot.docs.length !== 0) {
+        snapshot.forEach((doc) => {
+          newUser.value = false;
+
+          const data = doc.data();
+          // hydrate form from db
+          state.lastname = data.lastname;
+          state.firstname = data.firstname;
+          state.phone = data.phone;
+          state.address = data.address;
+          state.adult = data.adult;
+          state.children = data.children;
+          state.message = data.message;
+
+          id.value = doc.id;
+          state.adult === 0
+            ? (presence.value = false)
+            : (presence.value = true);
+        });
+      }
+    });
+
 
     const onFormSubmit = () => {
       v$.value.$validate();
@@ -302,7 +303,7 @@ export default defineComponent({
             .then(() => {
               isPending.value = false;
               alert("Vous avez confirmé votre presence, merci !");
-              router.replace('/')
+              router.replace("/");
             })
             .catch((error) => {
               console.log(error);
@@ -336,8 +337,8 @@ export default defineComponent({
       isPending,
       errors,
       presence,
-      setPresence,
+      setPresence
     };
-  },
+  }
 });
 </script>

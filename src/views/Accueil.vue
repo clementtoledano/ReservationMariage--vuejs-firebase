@@ -9,10 +9,14 @@
       <p class="text-3xl font-cursive font-extrabold">1 / Mairie de Béziers</p>
       <p class="text-xl mb-3 ml-6 font-serif">15h30 - 16h00</p>
     </div>
+    <div class="mb-3">
+      <p class="text-3xl font-cursive font-extrabold">2 / Photos sur parvis de la cathédrale</p>
+      <p class="text-xl mb-3 ml-6 font-serif">16h00 - 17h30</p>
+    </div>
     <div class="text-xl mb-3">
       <p class="text-3xl font-cursive font-extrabold">2 / Aperitif dinatoire</p>
       <p class="mb-3 ml-6 font-serif">
-        A partir de 17h00 <br>
+        A partir de 17h30 <br>
         Salle George Campo / Stade de football <br />
         Rue de la source / D37 <br />
         34420 Villeneuve-les-Beziers

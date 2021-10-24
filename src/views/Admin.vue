@@ -83,7 +83,7 @@ export default defineComponent({
   },
   beforeRouteEnter(to, from, next) {
     // Seulement pour un petit site entre amis ;)
-    if (prompt("password") !== "azeqsdaze") {
+    if (prompt('password') !== 'azeqsdaze') {
       next("/");
     }
     next();
