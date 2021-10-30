@@ -9,6 +9,8 @@
     </div>
     <div class="mb-3">
       <p class="text-3xl font-cursive font-extrabold">1 / Mairie de Béziers</p>
+      <p class="ml-6 bg-red">- ! -  passe sanitaire obligatoire dans la Mairie</p>
+      <p class="ml-6 bg-red">- ! -  L'entrée se fait sur la place de la police municipale</p>
       <p class="text-xl mb-3 ml-6 font-serif">15h30 - 16h00</p>
     </div>
     <div class="mb-3">
@@ -40,7 +42,7 @@ function jour() {
   const sec = (Number(date2) - date1) / 1000;
   const n = 24 * 3600;
   if (sec > 0) {
-    return Math.floor(sec / n)+1;
+    return Math.floor(sec / n) + 1;
   }
 }
 </script>
